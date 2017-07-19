@@ -75,7 +75,7 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '이름' or '학과명')
+    elif(command == '이름' or '학과명'):
         return JsonResponse({
 
             'message' : {
