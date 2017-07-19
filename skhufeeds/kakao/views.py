@@ -26,7 +26,7 @@ def answer(request):
                 },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학식']
+                'buttons' : ['학교소식','연락처','날씨','학식','설정']
                 }
             })
     else:
