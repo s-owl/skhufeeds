@@ -29,11 +29,44 @@ def answer(request):
                 'buttons' : ['학교소식','연락처','날씨','학식','설정']
                 }
             })
-    else:
+    elif(command == '학교소식'):
         return JsonResponse({
 
             'message' : {
-                'text': today_date + ' 현재 ' + command + ' 구현되지 않았습니다.'
+                'text': today_date + ' ' + command + ': 없음'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+            }
+        })
+    elif(command == '날씨'):
+        return JsonResponse({
+
+            'message' : {
+                'text': today_date + ' ' + command + ': 맑음'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+            }
+        })
+    elif(command == '연락처'):
+        return JsonResponse({
+
+            'message' : {
+                'text': '김희수: 01040582627'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+            }
+        })
+    elif(command == '설정'):
+        return JsonResponse({
+
+            'message' : {
+                'text': 'urlurlurlurl'
             },
             'keyboard': {
                 'type' : 'buttons',
