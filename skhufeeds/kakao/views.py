@@ -10,9 +10,9 @@ def index(request):
 def keyboard(request):
     return JsonResponse({
         'type' : 'buttons',
-        'buttons' : ['학교소식','연락처','날씨','학식']
+        'buttons' : ['학교소식','연락처','날씨','학식','설정']
     })
-    
+
 @csrf_exempt
 def answer(request):
     json_str = ((request.body).decode('utf-8'))
@@ -26,6 +26,6 @@ def answer(request):
         },
         'keyboard': {
             'type' : 'buttons',
-            'buttons' : ['학교소식','연락처','날씨','학식']
+            'buttons' : ['학교소식','연락처','날씨','학식','설정']
         }
     })
