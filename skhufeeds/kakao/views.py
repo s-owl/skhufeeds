@@ -17,15 +17,26 @@ def keyboard(request):
 def answer(request):
     json_str = ((request.body).decode('utf-8'))
     received_json_data = json.loads(json_str)
-    cafeteria_name = received_json_data['content']
     today_date = datetime.date.today().strftime("%m월 %m일")
+    command = received_json_data['content']
+    if(command == '학식'):
+        return JsonResponse({
+            'message' : {
+                'text': today_date + '의 ' + command + ' 중식 메뉴입니다'
+                },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['학식']
+                }
+            })
+    else:
+        return JsonResponse({
 
-    return JsonResponse({
-        'message' : {
-            'text': today_date + '의 ' + cafeteria_name + '중식 메뉴입니다'
-        },
-        'keyboard': {
-            'type' : 'buttons',
-            'buttons' : ['학교소식','연락처','날씨','학식','설정']
-        }
-    })
+            'message' : {
+                'text': today_date + ' 현재 ' + command + ' 구현되지 않았습니다.'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+            }
+        })
