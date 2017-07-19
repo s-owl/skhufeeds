@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 
+default = ['학교소식','연락처','날씨','학식','설정']
+
 # Create your views here.
 def index(request):
     return JsonResponse({"result":"true"})
@@ -10,7 +12,7 @@ def index(request):
 def keyboard(request):
     return JsonResponse({
         'type' : 'buttons',
-        'buttons' : ['학교소식','연락처','날씨','학식','설정']
+        'buttons' : default
     })
 
 @csrf_exempt
@@ -22,11 +24,11 @@ def answer(request):
     if(command == '학식'):
         return JsonResponse({
             'message' : {
-                'text': today_date + '의 ' + command + ' 중식 메뉴입니다'
+                'text': today_date + ' 중식 메뉴: 없음'
                 },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+                'buttons' : default
                 }
             })
     elif(command == '학교소식'):
@@ -37,7 +39,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+                'buttons' : default
             }
         })
     elif(command == '날씨'):
@@ -48,7 +50,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+                'buttons' : default
             }
         })
     elif(command == '연락처'):
@@ -59,7 +61,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+                'buttons' : ['이름','학과명']
             }
         })
     elif(command == '설정'):
@@ -70,6 +72,17 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['학교소식','연락처','날씨','학식','설정']
+                'buttons' : default
+            }
+        })
+    elif(command == '이름' or '학과명')
+        return JsonResponse({
+
+            'message' : {
+                'text': '아직 구현되지 않았습니다.'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
             }
         })
