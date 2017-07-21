@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 from . import account
@@ -88,10 +88,21 @@ def answer(request):
                 'buttons' : default
             }
         })
+    else:
+        return HttpResponseNotFound
+        
 @csrf_exempt
 def friend(request):
     json_str = ((request.body).decode('utf-8'))
     received_json_data = json.loads(json_str)
     user_key = received_json_data['user_key']
-    account.registerNewUser(user_key)
-    return JsonResponse({"result":"done"})
+
+    if request.method == "POST":
+        account.registerNewUser(user_key)
+        return JsonResponse({"result":"done"})
+
+    elif request.method == "DELETE":
+        account.deleteUser(user_key)
+        return JsonResponse({"result":"done"})
+    else:
+        return HttpResponseNotFound
