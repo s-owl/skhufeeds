@@ -90,9 +90,9 @@ def answer(request):
         })
     else:
         return HttpResponseNotFound
-        
+
 @csrf_exempt
-def friend(request):
+def add_friend(request):
     json_str = ((request.body).decode('utf-8'))
     received_json_data = json.loads(json_str)
     user_key = received_json_data['user_key']
@@ -100,9 +100,18 @@ def friend(request):
     if request.method == "POST":
         account.registerNewUser(user_key)
         return JsonResponse({"result":"done"})
+    else:
+        return HttpResponseNotFound
 
-    elif request.method == "DELETE":
+@csrf_exempt
+def del_friend(request, user_key):
+    # json_str = ((request.body).decode('utf-8'))
+    # received_json_data = json.loads(json_str)
+    # user_key = received_json_data['user_key']
+
+    if request.method == "DELETE":
         account.deleteUser(user_key)
         return JsonResponse({"result":"done"})
+
     else:
         return HttpResponseNotFound
