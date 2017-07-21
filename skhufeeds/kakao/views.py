@@ -86,3 +86,10 @@ def answer(request):
                 'buttons' : default
             }
         })
+@csrf_exempt
+def friend(request):
+    json_str = ((request.body).decode('utf-8'))
+    received_json_data = json.loads(json_str)
+    user_key = received_json_data['user_key']
+    s
+    return JsonResponse({"result":"done"})
