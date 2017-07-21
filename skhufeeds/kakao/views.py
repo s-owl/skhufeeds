@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json, datetime
+from . import account
+
 
 default = ['학교소식','연락처','날씨','학식','설정']
 
@@ -91,5 +93,5 @@ def friend(request):
     json_str = ((request.body).decode('utf-8'))
     received_json_data = json.loads(json_str)
     user_key = received_json_data['user_key']
-    s
+    account.registerNewUser(user_key)
     return JsonResponse({"result":"done"})

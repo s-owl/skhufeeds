@@ -1,4 +1,4 @@
-from django.contrib.auth import User
+from django.contrib.auth.models import User
 
 def registerNewUser(useruid):
     newUser = User.objects.create_user(useruid, None, None)
