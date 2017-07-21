@@ -93,6 +93,8 @@ def answer(request):
 
 @csrf_exempt
 def del_friend(request, user_key):
+    print("Request path : ",request.path)
+    print("Request path info : ",request.path_info)
     if request.method == "DELETE":
         print("Deleting user {}".format(user_key))
         account.deleteUser(user_key)
@@ -107,6 +109,8 @@ def del_friend(request, user_key):
 #     # user_key = received_json_data['user_key']
 @csrf_exempt
 def add_friend(request):
+    print("Request path : ",request.path)
+    print("Request path info : ",request.path_info)
     if request.method == "POST":
         json_str = ((request.body).decode('utf-8'))
         received_json_data = json.loads(json_str)
