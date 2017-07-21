@@ -110,6 +110,7 @@ def del_friend(request, user_key):
     # user_key = received_json_data['user_key']
 
     if request.method == "DELETE":
+        print("Deleting user {}".format(user_key))
         account.deleteUser(user_key)
         return JsonResponse({"result":"done"})
 
