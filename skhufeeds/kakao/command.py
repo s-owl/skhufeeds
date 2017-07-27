@@ -1,4 +1,8 @@
 from django.http import JsonResponse, HttpResponseNotFound
+from skhufeeds import account
+import json, datetime
+
+default = ['학교소식','연락처','날씨','학식','설정']
 
 def process_cmd(command,user_key):
     if(command == '학식'):
