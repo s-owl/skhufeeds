@@ -68,10 +68,11 @@ def answer(request):
             }
         })
     elif(command == '설정'):
-        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token='
-        tokenUrl = loginUrl + accoutn.getToken(user_key)
+        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token={}'
+        tokenUrl = loginUrl.format(account.getToken(user_key))
         return JsonResponse({
-            'message' : {
+            'message_button' : {
+                'label': "클릭하여 로그인 페이지로 이동하세요."
                 'url': tokenUrl
             },
             'keyboard': {
