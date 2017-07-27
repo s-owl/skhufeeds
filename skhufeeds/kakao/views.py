@@ -23,6 +23,7 @@ def answer(request):
     received_json_data = json.loads(json_str)
     today_date = datetime.date.today().strftime("%m월 %m일")
     command = received_json_data['content']
+    user_key = received_json_data['user_key']
     if(command == '학식'):
         return JsonResponse({
             'message' : {
@@ -67,10 +68,11 @@ def answer(request):
             }
         })
     elif(command == '설정'):
+        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token='
+        tokenUrl = loginUrl + accoutn.getToken(user_key)
         return JsonResponse({
-
             'message' : {
-                'text': 'urlurlurlurl'
+                'url': tokenUrl
             },
             'keyboard': {
                 'type' : 'buttons',
