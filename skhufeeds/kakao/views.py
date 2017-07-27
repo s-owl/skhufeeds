@@ -69,7 +69,7 @@ def answer(request):
         })
     elif(command == '설정'):
         loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token='
-        tokenUrl = loginUrl + accoutn.getToken(user_key)
+        tokenUrl = loginUrl + account.getToken(user_key)
         return JsonResponse({
             'message' : {
                 'url': tokenUrl
