@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpRe
 from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 from skhufeeds import account
+from . import command
 
 
 default = ['학교소식','연락처','날씨','학식','설정']
@@ -24,95 +25,9 @@ def answer(request):
     today_date = datetime.date.today().strftime("%m월 %m일")
     command = received_json_data['content']
     user_key = received_json_data['user_key']
-    if(command == '학식'):
-        return JsonResponse({
-            'message' : {
-                'text': today_date + ' 중식 메뉴: 없음'
-                },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-                }
-            })
-    elif(command == '학교소식'):
-        return JsonResponse({
+    return command.process_cmd(command,user_key)
 
-            'message' : {
-                'text': today_date + ' ' + command + ': 없음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '날씨'):
-        return JsonResponse({
 
-            'message' : {
-                'text': today_date + ' ' + command + ': 맑음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '연락처'):
-        return JsonResponse({
-
-            'message' : {
-                'text': '김희수: 01040582627'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : ['이름','학과명']
-            }
-        })
-    elif(command == '설정'):
-        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token={}'
-        tokenUrl = loginUrl.format(account.getToken(user_key))
-        return JsonResponse({
-            'message' : {
-                "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
-                "message_button": {
-                    'label': "설정페이지",
-                    'url': tokenUrl
-                    }
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '이름' or '학과명'):
-        return JsonResponse({
-
-            'message' : {
-                'text': '아직 구현되지 않았습니다.'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    else:
-        return HttpResponseNotFound
-
-@csrf_exempt
-def del_friend(request, user_key):
-    print("Request path : ",request.path)
-    print("Request path info : ",request.path_info)
-    if request.method == "DELETE":
-        print("Deleting user {}".format(user_key))
-        account.deleteUser(user_key)
-        return JsonResponse({"result":"done"})
-    else:
-        return HttpResponseNotFound
-
-# @csrf_exempt
-# def del_friend(request, user_key):
-#     # json_str = ((request.body).decode('utf-8'))
-#     # received_json_data = json.loads(json_str)
-#     # user_key = received_json_data['user_key']
 @csrf_exempt
 def add_friend(request):
     print("Request path : ",request.path)
@@ -126,24 +41,13 @@ def add_friend(request):
     else:
         return HttpResponseNotFound
 
-# @csrf_exempt
-# def del_friend(request, user_key):
-#     if request.method == "POST":
-#         json_str = ((request.body).decode('utf-8'))
-#         received_json_data = json.loads(json_str)
-#         user_key = received_json_data['user_key']
-#         account.registerNewUser(user_key)
-#         return JsonResponse({"result":"done"})
-#
-#     elif request.method == "DELETE":
-#         print("Deleting user {}".format(user_key))
-#         account.deleteUser(user_key)
-#         return JsonResponse({"result":"done"})
-#
-#     else:
-#         return HttpResponseNotFound
-
-#
-#
-#     else:
-#         return HttpResponseNotFound
+@csrf_exempt
+def del_friend(request, user_key):
+    print("Request path : ",request.path)
+    print("Request path info : ",request.path_info)
+    if request.method == "DELETE":
+        print("Deleting user {}".format(user_key))
+        account.deleteUser(user_key)
+        return JsonResponse({"result":"done"})
+    else:
+        return HttpResponseNotFound
