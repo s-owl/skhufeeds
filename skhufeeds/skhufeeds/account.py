@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from skhufeeds.settings.models import UserInfo
+from settings.models import UserInfo
 import jwt, datetime
 
 def registerNewUser(useruid):
@@ -17,35 +17,37 @@ def deleteUser(useruid):
     except Exception as e:
         print(e)
 
-def getToken(userid):
+# This function always returns new token for each user
+def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
         userInfo = UserInfo.objects.get(user = user)
-        return userinfo.token
-    except User.DoseNotExist:
+    except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
+    except UserInfo.DoesNotExist:
+        # If UserInfo Data is not available yet, create new one
+        # Then save new token
+        userInfo = UserInfo()
+        userInfo.user = user
+        userInfo.last_pull = datetime.datetime.utcnow()
+        userInfo.token = generateToken(useruid, user.password)
+        userInfo.save()
+        return userInfo.token
     except Exception as e:
         print(e)
         return None
+    else:
+        # If UserInfo data exists, just save new token
+        userInfo.token = generateToken(useruid, user.password)
+        userInfo.save()
+        return userInfo.token
 
-def generateToken(userid):
-    try:
-        user = User.objects.get(username = useruid)
-        userInfo = UserInfo.objects.get(user = user)
-        # Generate Token that expires in a hour
-        token = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hour=1),
-         'aud': userid}, user.password)
-         # Save Token on DB
-         userInfo.token = token
-         userInfo.save()
-        return token
-    except User.DoseNotExist:
-        print("Cannot find user {}.".format(useruid))
-        return None
-    except Exception as e:
-        print(e)
-        return None
+def generateToken(useruid, secret):
+    print("Generating token for user {}.".format(useruid))
+    return jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
+    'aud': useruid}, secret)
+
 
 # Function that verifies token
 # Returns True if verified, or False
@@ -59,14 +61,14 @@ def vefiryToken(userid, tokenToVerify):
             return True
         else:
             return False
-    except User.DoseNotExist:
+    except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
     except jwt.ExpiredSignatureError:
         return False
     except jwt.exceptions.InvalidAudienceError:
         return False
-    excpet jwt.exceptions.DecodeError:
+    except jwt.exceptions.DecodeError:
         return False
     except Exception as e:
         print(e)

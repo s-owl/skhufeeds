@@ -9,5 +9,5 @@ class UserInfo(models.Model):
 #
 # 사용자 구독정보 모델
 class SubscribeList(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     source_id = models.ForeignKey('crawlers.Sources', on_delete = models.CASCADE)
