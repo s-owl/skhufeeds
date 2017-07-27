@@ -72,7 +72,7 @@ def answer(request):
         tokenUrl = loginUrl.format(account.getToken(user_key))
         return JsonResponse({
             'message_button' : {
-                'label': "클릭하여 로그인 페이지로 이동하세요."
+                'label': "클릭하여 로그인 페이지로 이동하세요.",
                 'url': tokenUrl
             },
             'keyboard': {
