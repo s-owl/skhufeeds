@@ -19,16 +19,6 @@ def keyboard(request):
     })
 
 @csrf_exempt
-def answer(request):
-    json_str = ((request.body).decode('utf-8'))
-    received_json_data = json.loads(json_str)
-    today_date = datetime.date.today().strftime("%m월 %m일")
-    command = received_json_data['content']
-    user_key = received_json_data['user_key']
-    return command.process_cmd(command,user_key)
-
-
-@csrf_exempt
 def add_friend(request):
     print("Request path : ",request.path)
     print("Request path info : ",request.path_info)

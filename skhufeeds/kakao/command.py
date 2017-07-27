@@ -1,10 +1,21 @@
-from django.http import JsonResponse, HttpResponseNotFound
-from skhufeeds import account
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
+from django.views.decorators.csrf import csrf_exempt
 import json, datetime
+from skhufeeds import account
+from . import command
+
 
 default = ['학교소식','연락처','날씨','학식','설정']
 
-def process_cmd(command,user_key):
+@csrf_exempt
+def answer(request):
+    json_str = ((request.body).decode('utf-8'))
+    received_json_data = json.loads(json_str)
+    today_date = datetime.date.today().strftime("%m월 %m일")
+    command = received_json_data['content']
+    user_key = received_json_data['user_key']
+
     if(command == '학식'):
         return JsonResponse({
             'message' : {
