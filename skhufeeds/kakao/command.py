@@ -22,7 +22,7 @@ def answer(request):
     except User.DoesNotExist:
         return JsonResponse({
             'message' : {
-                'text': '친구 추가 되지 않았습니다. 먼저 친구 추가를 해주세요.'
+                'text': '친구추가 후 정상적으로 이용하실 수 있습니다.'
                 },
             'keyboard': {
                 'type' : 'buttons',
@@ -66,11 +66,11 @@ def answer(request):
         return JsonResponse({
 
             'message' : {
-                'text': '김희수: 01040582627'
+                'text': '무엇으로 검색하시겠습니까?'
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['이름','학과명']
+                'buttons' : ['성명','소속']
             }
         })
     elif(command == '설정'):
@@ -89,9 +89,8 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '이름' or '학과명'):
+    elif(command == '성명'):
         return JsonResponse({
-
             'message' : {
                 'text': '아직 구현되지 않았습니다.'
             },
@@ -100,5 +99,16 @@ def answer(request):
                 'buttons' : default
             }
         })
+    elif(command == '소속'):
+        return JsonResponse({
+            'message' : {
+                'text': '아직 구현되지 않았습니다.'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+            }
+        })
+
     else:
         return HttpResponseNotFound

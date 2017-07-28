@@ -12,7 +12,7 @@ def deleteUser(useruid):
         user = User.objects.get(username = useruid)
         user.delete()
         print("User {} has been deleted.".format(useruid))
-    except User.DoseNotExist:
+    except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
     except Exception as e:
         print(e)
