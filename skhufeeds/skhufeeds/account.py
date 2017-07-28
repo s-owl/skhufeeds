@@ -52,12 +52,12 @@ def generateToken(useruid, secret):
 # Function that verifies token
 # Returns True if verified, or False
 # Returns None if other error(ex : user not found) has raised
-def vefiryToken(userid, tokenToVerify):
+def vefiryToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
         userInfo = UserInfo.objects.get(user = user)
         if(tokenToVerify == userInfo.token):
-            jwt.decode(tokenToVerify, user.password, audience=userid)
+            jwt.decode(tokenToVerify, user.password, audience=useruid)
             return True
         else:
             return False
