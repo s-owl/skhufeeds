@@ -19,22 +19,22 @@ def answer(request):
 
     try:
         user = User.objects.get(username = user_key)
-    except User.DoseNotExist:
+    except User.DoesNotExist:
         return JsonResponse({
             'message' : {
                 'text': '친구 추가 되지 않았습니다. 먼저 친구 추가를 해주세요.'
-            },
+                },
             'keyboard': {
                 'type' : 'buttons',
                 'buttons' : default
-            }
-        })
+                }
+            })
 
     if(command == '학식'):
         return JsonResponse({
             'message' : {
                 'text': today_date + ' 중식 메뉴: 없음'
-                },
+            },
             'keyboard': {
                 'type' : 'buttons',
                 'buttons' : default
