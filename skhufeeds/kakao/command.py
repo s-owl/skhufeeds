@@ -15,6 +15,7 @@ def answer(request):
     today_date = datetime.date.today().strftime("%m월 %m일")
     command = received_json_data['content']
     user_key = received_json_data['user_key']
+    print(user_key)
 
     if(command == '학식'):
         return JsonResponse({
