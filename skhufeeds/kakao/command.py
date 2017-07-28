@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 from skhufeeds import account
 from . import command
+from django.contrib.auth.models import User
 
 
 default = ['학교소식','연락처','날씨','학식','설정']
@@ -15,7 +16,18 @@ def answer(request):
     today_date = datetime.date.today().strftime("%m월 %m일")
     command = received_json_data['content']
     user_key = received_json_data['user_key']
-    print(user_key)
+    try:
+        user = User.objects.get(username = useruid)
+    except User.DoseNotExist:
+        return JsonResponse({
+            'massage' : {
+                'text': '친구 추가 되지 않았습니다. 먼저 친구 추가를 해주세요.'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+            }
+        })
 
     if(command == '학식'):
         return JsonResponse({
