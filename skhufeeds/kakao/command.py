@@ -74,8 +74,8 @@ def answer(request):
             }
         })
     elif(command == '설정'):
-        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login?token={}'
-        tokenUrl = loginUrl.format(account.getToken(user_key))
+        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
+        tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
         return JsonResponse({
             'message' : {
                 "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
@@ -109,6 +109,5 @@ def answer(request):
                 'buttons' : default
             }
         })
-
     else:
         return HttpResponseNotFound
