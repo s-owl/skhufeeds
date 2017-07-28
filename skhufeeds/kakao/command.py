@@ -16,11 +16,12 @@ def answer(request):
     today_date = datetime.date.today().strftime("%m월 %m일")
     command = received_json_data['content']
     user_key = received_json_data['user_key']
+
     try:
         user = User.objects.get(username = user_key)
     except User.DoseNotExist:
         return JsonResponse({
-            'massage' : {
+            'message' : {
                 'text': '친구 추가 되지 않았습니다. 먼저 친구 추가를 해주세요.'
             },
             'keyboard': {
