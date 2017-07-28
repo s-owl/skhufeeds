@@ -17,7 +17,7 @@ def answer(request):
     command = received_json_data['content']
     user_key = received_json_data['user_key']
     try:
-        user = User.objects.get(username = useruid)
+        user = User.objects.get(username = user_key)
     except User.DoseNotExist:
         return JsonResponse({
             'massage' : {
