@@ -53,7 +53,7 @@ def generateToken(useruid, secret):
 # Function that verifies token
 # Returns True if verified, or False
 # Returns None if other error(ex : user not found) has raised
-def vefiryToken(useruid, tokenToVerify):
+def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
         userInfo = UserInfo.objects.get(user = user)
