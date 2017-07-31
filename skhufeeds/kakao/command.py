@@ -95,7 +95,7 @@ def answer(request):
         return JsonResponse({
             'message':{
                 'text': '교수명을 입력하세요.'
-            }
+            },
             'keyboard' :{
                 'type' : 'text'
             }
@@ -104,7 +104,7 @@ def answer(request):
         return JsonResponse({
             'message':{
                 'text': '학과명 또는 부서명을 입력하세요.'
-            }
+            },
             'keyboard' :{
                 'type' : 'text'
             }
@@ -128,7 +128,7 @@ def answer(request):
             return JsonResponse({
                 'message':{
                     'text': msg
-                }
+                },
                 'keyboard':{
                     'type' : 'buttons',
                     'buttons' : default
@@ -154,7 +154,7 @@ def answer(request):
             return JsonResponse({
                 'message':{
                     'text': msg2
-                }
+                },
                 'keyboard':{
                     'type' : 'buttons',
                     'buttons' : default
