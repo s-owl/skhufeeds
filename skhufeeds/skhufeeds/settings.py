@@ -109,8 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'skhufeeds.authbackend.UrlTokenBackend',
-    'django.contrib.auth.backends.ModelBackend'
+    'skhufeeds.authbackend.UrlTokenBackend'
+    # 'django.contrib.auth.backends.ModelBackend'
 ]
 
 
