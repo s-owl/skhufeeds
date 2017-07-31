@@ -3,7 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
 
 def run():
-    html = urlopen("http://www.skhu.ac.kr/board/boardlist.aspx?bsid=10008")
+    html = urlopen("http://www.skhu.ac.kr/board/boardlist.aspx?bsid=10006&searchBun=75")
     bs0bj = BeautifulSoup(html.read(),"html.parser")
 
     data = list():
