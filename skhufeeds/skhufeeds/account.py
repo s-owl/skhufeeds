@@ -3,8 +3,17 @@ from settings.models import UserInfo
 import jwt, datetime, uuid
 
 def registerNewUser(useruid):
+    userSecret = uuid.uuid4()
+
     newUser = User.objects.create_user(useruid, None, None)
     newUser.save()
+
+    newUserInfo = UserInfo()
+    newUserInfo.user = newUser
+    newUserInfo.last_pull = datetime.datetime.utcnow()
+    newUserInfo.secret = userSecret
+    newUserInfo.save()
+
     print("New user {} has been registered!".format(useruid))
 
 def deleteUser(useruid):
@@ -25,22 +34,12 @@ def getToken(useruid):
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
-    except UserInfo.DoesNotExist:
-        # If UserInfo Data is not available yet, create new one
-        # Then save new token
-        userInfo = UserInfo()
-        userInfo.user = user
-        userInfo.last_pull = datetime.datetime.utcnow()
-        userInfo.secret = uuid.uuid4()
-        userInfo.token = generateToken(useruid, userInfo.secret)
-        userInfo.save()
-        return userInfo.token
     except Exception as e:
         print(e)
         return None
     else:
         # If UserInfo data exists, just save new token
-        userInfo.token = generateToken(useruid, user.password)
+        userInfo.token = generateToken(useruid, userInfo.secret)
         userInfo.save()
         return userInfo.token
 
