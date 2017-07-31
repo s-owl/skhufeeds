@@ -6,6 +6,7 @@ def registerNewUser(useruid):
     userSecret = uuid.uuid4()
 
     newUser = User.objects.create_user(useruid, None, None)
+    newUser.set_unusable_password()
     newUser.save()
 
     newUserInfo = UserInfo()
