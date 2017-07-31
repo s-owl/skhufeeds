@@ -6,6 +6,7 @@ class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     last_pull = models.DateTimeField(auto_now_add=False, auto_now=False)
     token = models.TextField()
+    last_command = models.CharField()
 #
 # 사용자 구독정보 모델
 class SubscribeList(models.Model):
