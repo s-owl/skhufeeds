@@ -91,7 +91,7 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '성명''):
+    elif(command == '성명'):
         return JsonResponse({
             'message':{
                 'text': '교수명을 입력하세요.'
