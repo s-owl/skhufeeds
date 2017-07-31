@@ -64,7 +64,7 @@ def answer(request):
     elif(userinfo.last_command == '소속'):
         result2 = Phone.objects.filter(desc__contains = command)
         msg2 = ""
-        for item2 in result:
+        for item2 in result2:
             msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
         if(len(result2)==0):
             updateLastCommand(command, userinfo)
