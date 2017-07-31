@@ -46,8 +46,10 @@ def getToken(useruid):
 
 def generateToken(useruid, secret):
     print("Generating token for user {}.".format(useruid))
-    return jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
+    token jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
     'aud': useruid}, secret)
+    print(token)
+    return token
 
 
 # Function that verifies token
