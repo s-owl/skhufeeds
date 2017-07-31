@@ -22,6 +22,7 @@ def answer(request):
         user = User.objects.get(username = user_key)
         userinfo = UserInfo.objects.get(user = user)
     except User.DoesNotExist:
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message' : {
                 'text': '친구추가 후 정상적으로 이용하실 수 있습니다.'
@@ -38,6 +39,7 @@ def answer(request):
         for item in result:
             msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
         if(len(result)==0):
+            updateLastCommand(command, userinfo)
             return JsonResponse({
                 'message' : {
                     'text': '해당 교수명이 존재하지 않습니다.'
@@ -48,6 +50,7 @@ def answer(request):
                 }
             })
         else:
+            updateLastCommand(command, userinfo)
             return JsonResponse({
                 'message':{
                     'text': msg
@@ -64,6 +67,7 @@ def answer(request):
         for item2 in result:
             msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
         if(len(result2)==0):
+            updateLastCommand(command, userinfo)
             return JsonResponse({
                 'message' : {
                     'text': '해당 학과명 또는 부서명이 존재하지 않습니다.'
@@ -74,6 +78,7 @@ def answer(request):
                 }
             })
         else:
+            updateLastCommand(command, userinfo)
             return JsonResponse({
                 'message':{
                     'text': msg2
@@ -85,6 +90,7 @@ def answer(request):
             })
 
     elif(command == '학식'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message' : {
                 'text': today_date + '\n중식: 없음\n석식: 없음'
@@ -95,6 +101,7 @@ def answer(request):
                 }
             })
     elif(command == '학교소식'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
 
             'message' : {
@@ -106,6 +113,7 @@ def answer(request):
             }
         })
     elif(command == '날씨'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
 
             'message' : {
@@ -117,6 +125,7 @@ def answer(request):
             }
         })
     elif(command == '연락처'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message' : {
                 'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
@@ -129,6 +138,7 @@ def answer(request):
     elif(command == '설정'):
         loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
         tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message' : {
                 "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
@@ -143,6 +153,7 @@ def answer(request):
             }
         })
     elif(command == '성명'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message':{
                 'text': '교수명을 입력하세요.'
@@ -152,6 +163,7 @@ def answer(request):
             }
         })
     elif(command == '소속'):
+        updateLastCommand(command, userinfo)
         return JsonResponse({
             'message':{
                 'text': '학과명 또는 부서명을 입력하세요.'
@@ -162,3 +174,7 @@ def answer(request):
         })
     else:
         return HttpResponseNotFound
+
+def updateLastCommand(command, userInfo):
+    userInfo.last_command = command
+    userInfo.save()
