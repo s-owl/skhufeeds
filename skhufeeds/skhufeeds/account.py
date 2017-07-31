@@ -40,8 +40,9 @@ def getToken(useruid):
     else:
         # If UserInfo data exists, just save new token
         newToken = generateToken(useruid, userInfo.secret)
-        userInfo.jwt_token = newToken
+        userInfo.token = newToken
         userInfo.save()
+        user.save()
         return newToken
 
 def generateToken(useruid, secret):
@@ -58,7 +59,7 @@ def generateToken(useruid, secret):
 def verifyToken(useruid, tokenToVerify):
     user = User.objects.get(username = useruid)
     userInfo = UserInfo.objects.get(user = user)
-    if(tokenToVerify == userInfo.jwt_token):
+    if(tokenToVerify == userInfo.token):
         jwt.decode(tokenToVerify, userInfo.secret, audience=useruid)
         print("TOKEN VERIFIED!")
         return True

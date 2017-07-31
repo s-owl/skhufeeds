@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     last_pull = models.DateTimeField(auto_now_add=False, auto_now=False)
-    jwt_token = models.TextField(default="")
+    token = models.TextField(default="")
     secret = models.TextField(default="")
     last_command = models.CharField(max_length=10, default="")
 #
