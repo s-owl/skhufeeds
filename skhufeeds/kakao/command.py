@@ -34,7 +34,7 @@ def answer(request):
             })
 
     if(userinfo.last_command == '성명'):
-        result = Phone.objects.filter(name = name)
+        result = Phone.objects.filter(name = command)
         msg = ""
         for item in result:
             msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
@@ -62,7 +62,7 @@ def answer(request):
             })
 
     elif(userinfo.last_command == '소속'):
-        result2 = Phone.objects.filter(desc__contains = desc)
+        result2 = Phone.objects.filter(desc__contains = command)
         msg2 = ""
         for item2 in result:
             msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
