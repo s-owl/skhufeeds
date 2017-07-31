@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from settings.models import UserInfo
-import jwt, datetime
+import jwt, datetime, uuid
 
 def registerNewUser(useruid):
     newUser = User.objects.create_user(useruid, None, None)
@@ -31,7 +31,8 @@ def getToken(useruid):
         userInfo = UserInfo()
         userInfo.user = user
         userInfo.last_pull = datetime.datetime.utcnow()
-        userInfo.token = generateToken(useruid, user.password)
+        userInfo.secret = uuid.uuid4()
+        userInfo.token = generateToken(useruid, userInfo.secret)
         userInfo.save()
         return userInfo.token
     except Exception as e:
@@ -57,7 +58,7 @@ def vefiryToken(useruid, tokenToVerify):
         user = User.objects.get(username = useruid)
         userInfo = UserInfo.objects.get(user = user)
         if(tokenToVerify == userInfo.token):
-            jwt.decode(tokenToVerify, user.password, audience=useruid)
+            jwt.decode(tokenToVerify, userInfo.secret, audience=useruid)
             return True
         else:
             return False
