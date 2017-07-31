@@ -1,6 +1,7 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
 from settings.models import UserInfo
+from skhufeeds import account
 import jwt
 
 class UrlTokenBackend(ModelBackend):
@@ -9,6 +10,7 @@ class UrlTokenBackend(ModelBackend):
         user = User.objects.get(username = useruid)
         userInfo = UserInfo.objects.get(user = user)
         print(user, userInfo)
-        if(userInfo.token == token):
-            jwt.decode(token, user.password, audience=useruid)
+        if account.verifyToken(useruid, token):
             return user
+        else:
+            return None
