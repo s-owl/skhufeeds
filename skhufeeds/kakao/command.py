@@ -160,5 +160,5 @@ def answer(request):
                 'type' : 'text'
             }
         })
-        else:
+    else:
         return HttpResponseNotFound
