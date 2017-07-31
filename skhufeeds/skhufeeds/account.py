@@ -53,23 +53,12 @@ def generateToken(useruid, secret):
 # Returns True if verified, or False
 # Returns None if other error(ex : user not found) has raised
 def verifyToken(useruid, tokenToVerify):
-    try:
-        user = User.objects.get(username = useruid)
-        userInfo = UserInfo.objects.get(user = user)
-        if(tokenToVerify == userInfo.token):
-            jwt.decode(tokenToVerify, userInfo.secret, audience=useruid)
-            return True
-        else:
-            return False
-    except User.DoesNotExist:
-        print("Cannot find user {}.".format(useruid))
-        return None
-    except jwt.ExpiredSignatureError:
+    user = User.objects.get(username = useruid)
+    userInfo = UserInfo.objects.get(user = user)
+    if(tokenToVerify == userInfo.token):
+        jwt.decode(tokenToVerify, userInfo.secret, audience=useruid)
+        print("TOKEN VERIFIED!")
+        return True
+    else:
+        print("VERIFICATION ERROR!")
         return False
-    except jwt.exceptions.InvalidAudienceError:
-        return False
-    except jwt.exceptions.DecodeError:
-        return False
-    except Exception as e:
-        print(e)
-        return None
