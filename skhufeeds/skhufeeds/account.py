@@ -39,9 +39,10 @@ def getToken(useruid):
         return None
     else:
         # If UserInfo data exists, just save new token
-        userInfo.token = generateToken(useruid, userInfo.secret)
+        newToken = generateToken(useruid, userInfo.secret)
+        userInfo.token = newToken
         userInfo.save()
-        return userInfo.token
+        return newToken
 
 def generateToken(useruid, secret):
     print("Generating token for user {}.".format(useruid))
