@@ -32,84 +32,7 @@ def answer(request):
                 }
             })
 
-    if(command == '학식'):
-        return JsonResponse({
-            'message' : {
-                'text': today_date + '중식: 없음\n석식: 없음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-                }
-            })
-    elif(command == '학교소식'):
-        return JsonResponse({
-
-            'message' : {
-                'text': today_date + ' ' + command + ': 없음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '날씨'):
-        return JsonResponse({
-
-            'message' : {
-                'text': today_date + ' ' + command + ': 맑음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '연락처'):
-        return JsonResponse({
-
-            'message' : {
-                'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : ['성명','소속']
-            }
-        })
-    elif(command == '설정'):
-        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
-        tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
-        return JsonResponse({
-            'message' : {
-                "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
-                "message_button": {
-                    'label': "설정페이지",
-                    'url': tokenUrl
-                    }
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-            }
-        })
-    elif(command == '성명'):
-        return JsonResponse({
-            'message':{
-                'text': '교수명을 입력하세요.'
-            },
-            'keyboard' :{
-                'type' : 'text'
-            }
-        })
-    elif(command == '소속'):
-        return JsonResponse({
-            'message':{
-                'text': '학과명 또는 부서명을 입력하세요.'
-            },
-            'keyboard' :{
-                'type' : 'text'
-            }
-        })
-    elif(userinfo.last_command == '성명'):
+    if(userinfo.last_command == '성명'):
         result = Phone.objects.filter(name = name)
         msg = ""
         for item in result:
@@ -160,5 +83,82 @@ def answer(request):
                     'buttons' : default
                 }
             })
-    else:
+
+    elif(command == '학식'):
+        return JsonResponse({
+            'message' : {
+                'text': today_date + '\n중식: 없음\n석식: 없음'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+                }
+            })
+    elif(command == '학교소식'):
+        return JsonResponse({
+
+            'message' : {
+                'text': today_date + ' ' + command + ': 없음'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+            }
+        })
+    elif(command == '날씨'):
+        return JsonResponse({
+
+            'message' : {
+                'text': today_date + ' ' + command + ': 맑음'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+            }
+        })
+    elif(command == '연락처'):
+        return JsonResponse({
+            'message' : {
+                'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : ['성명','소속']
+            }
+        })
+    elif(command == '설정'):
+        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
+        tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
+        return JsonResponse({
+            'message' : {
+                "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
+                "message_button": {
+                    'label': "설정페이지",
+                    'url': tokenUrl
+                    }
+            },
+            'keyboard': {
+                'type' : 'buttons',
+                'buttons' : default
+            }
+        })
+    elif(command == '성명'):
+        return JsonResponse({
+            'message':{
+                'text': '교수명을 입력하세요.'
+            },
+            'keyboard' :{
+                'type' : 'text'
+            }
+        })
+    elif(command == '소속'):
+        return JsonResponse({
+            'message':{
+                'text': '학과명 또는 부서명을 입력하세요.'
+            },
+            'keyboard' :{
+                'type' : 'text'
+            }
+        })
+        else:
         return HttpResponseNotFound
