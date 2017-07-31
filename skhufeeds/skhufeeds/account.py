@@ -5,7 +5,7 @@ import jwt, datetime, uuid
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
 
-    newUser = User.objects.create_user(username=useruid, email=None, password=None)
+    newUser = User.objects.create_user(username=useruid, email=None, password=uuid.uuid4())
     newUser.save()
 
     newUserInfo = UserInfo()
