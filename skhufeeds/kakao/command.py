@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from settings.models import UserInfo
 from crawlers.models import Phone
 
-default = ['학교소식','연락처','날씨','학식','설정']
+default = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
 @csrf_exempt
 def answer(request):
@@ -46,7 +46,7 @@ def answer(request):
                 },
                 'keyboard': {
                     'type' : 'buttons',
-                    'buttons' : ['성명','소속']
+                    'buttons' : default
                 }
             })
         else:
@@ -74,7 +74,7 @@ def answer(request):
                 },
                 'keyboard': {
                     'type' : 'buttons',
-                    'buttons' : ['성명','소속']
+                    'buttons' : default
                 }
             })
         else:
