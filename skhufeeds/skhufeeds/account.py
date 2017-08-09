@@ -9,11 +9,9 @@ def registerNewUser(useruid):
     newUser.set_unusable_password()
     newUser.save()
 
-    newUserInfo = UserInfo()
-    newUserInfo.user = newUser
-    newUserInfo.last_pull = datetime.datetime.utcnow()
-    newUserInfo.secret = userSecret
-    newUserInfo.save()
+    newUser.profile.last_pull = datetime.datetime.utcnow()
+    newUser.profile.secret = userSecret
+    newUser.save()
 
     print("New user {} has been registered!".format(useruid))
 
@@ -31,7 +29,6 @@ def deleteUser(useruid):
 def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
-        userInfo = UserInfo.objects.get(user = user)
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
@@ -40,9 +37,9 @@ def getToken(useruid):
         return None
     else:
         # If UserInfo data exists, just save new token
-        userInfo.token = generateToken(useruid, userInfo.secret)
-        userInfo.save()
-        return userInfo.token
+        user.profile.token = generateToken(useruid, user.profile.secret)
+        user.save()
+        return user.profile.token
 
 def generateToken(useruid, secret):
     print("Generating token for user {}.".format(useruid))
@@ -56,9 +53,8 @@ def generateToken(useruid, secret):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        userInfo = UserInfo.objects.get(user = user)
-        if(tokenToVerify == userInfo.token):
-            jwt.decode(tokenToVerify, userInfo.secret, audience=useruid)
+        if(tokenToVerify == user.profile.token):
+            jwt.decode(tokenToVerify, user.profilesecret, audience=useruid)
             return True
         else:
             return False

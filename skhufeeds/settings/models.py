@@ -29,7 +29,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-
 #
 # 사용자 구독정보 모델
 class SubscribeList(models.Model):
