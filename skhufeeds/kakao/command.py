@@ -5,7 +5,7 @@ import json, datetime
 from skhufeeds import account
 from . import command
 from django.contrib.auth.models import User
-from settings.models import UserInfo
+# from settings.models import UserInfo
 from crawlers.models import Phone
 
 default = ['학교소식','연락처','날씨','학식','설정']
@@ -20,7 +20,7 @@ def answer(request):
 
     try:
         user = User.objects.get(username = user_key)
-        userinfo = UserInfo.objects.get(user = user)
+        # userinfo = UserInfo.objects.get(user = user)
     except User.DoesNotExist:
         return JsonResponse({
             'message' : {
@@ -77,7 +77,7 @@ def answer(request):
         })
     elif(command == '설정'):
         loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
-        tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
+        tokenUrl = loginUrl.format(user_key, account.getToken(user_key))
         return JsonResponse({
             'message' : {
                 "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
@@ -91,11 +91,11 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '성명''):
+    elif(command == '성명'):
         return JsonResponse({
             'message':{
                 'text': '교수명을 입력하세요.'
-            }
+            },
             'keyboard' :{
                 'type' : 'text'
             }
@@ -104,16 +104,16 @@ def answer(request):
         return JsonResponse({
             'message':{
                 'text': '학과명 또는 부서명을 입력하세요.'
-            }
+            },
             'keyboard' :{
                 'type' : 'text'
             }
         })
-    elif(userinfo.last_command == '성명'):
+    elif(user.profile.last_command == '성명'):
         result = Phone.objects.filter(name = name)
         msg = ""
         for item in result:
-            msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
+            msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name, Phone.phone, Phone.email)
         if(len(result)==0):
             return JsonResponse({
                 'message' : {
@@ -128,18 +128,18 @@ def answer(request):
             return JsonResponse({
                 'message':{
                     'text': msg
-                }
+                },
                 'keyboard':{
                     'type' : 'buttons',
                     'buttons' : default
                 }
             })
 
-    elif(userinfo.last_command == '소속'):
+    elif(user.profile.last_command == '소속'):
         result2 = Phone.objects.filter(desc__contains = desc)
         msg2 = ""
         for item2 in result:
-            msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
+            msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name, Phone.phone, Phone.email)
         if(len(result2)==0):
             return JsonResponse({
                 'message' : {
@@ -154,7 +154,7 @@ def answer(request):
             return JsonResponse({
                 'message':{
                     'text': msg2
-                }
+                },
                 'keyboard':{
                     'type' : 'buttons',
                     'buttons' : default

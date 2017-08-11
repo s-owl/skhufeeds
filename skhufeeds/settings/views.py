@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden
-from .models import UserInfo
 import jwt
 
 # Create your views here.
@@ -14,8 +13,6 @@ def authUser(request, useruid, token):
         user = authenticate(useruid=useruid, token=token)
     except User.DoesNotExist:
         return HttpResponseNotFound("존재하지 않는 사용자 입니다.")
-    except UserInfo.DoesNotExist:
-        return HttpResponseNotFound("해당 사용자에 대한 인증 정보가 아직 없습니다.")
     except jwt.InvalidAudienceError:
         return HttpResponseForbidden("만료된 URL 입니다.")
     else:

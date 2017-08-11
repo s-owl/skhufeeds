@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from settings.models import UserInfo
 import jwt, datetime, uuid
 
 def registerNewUser(useruid):
