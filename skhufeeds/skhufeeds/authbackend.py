@@ -1,6 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
-from settings.models import UserInfo
 from skhufeeds import account
 import jwt
 
