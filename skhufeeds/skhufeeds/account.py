@@ -54,6 +54,7 @@ def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
         if(tokenToVerify.replace("'", ":") == user.profile.token):
+            print("NOW VERIFING.")
             jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
             print("TOKEN VERIFIED!")
             return True
@@ -64,8 +65,11 @@ def verifyToken(useruid, tokenToVerify):
         print("Cannot find user {}.".format(useruid))
         return None
     except jwt.ExpiredSignatureError:
+        print("SIGNATURE ERROR!")
         return False
     except jwt.exceptions.InvalidAudienceError:
+        print("TOKEN INVALID!")
         return False
     except jwt.exceptions.DecodeError:
+        print("DECODE ERRPR!")
         return False
