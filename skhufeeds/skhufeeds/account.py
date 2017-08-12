@@ -34,7 +34,7 @@ def getToken(useruid):
         print(e)
         return None
     else:
-        tokenStr = generateToken(useruid, user.profile.secret)
+        tokenStr = str(generateToken(useruid, user.profile.secret))
         user.profile.token = tokenStr.replace("'", ":") # Replace single quote with colon
         user.save()
         return tokenStr
