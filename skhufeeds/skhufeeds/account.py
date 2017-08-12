@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-import jwt, datetime, uuid, re
+import jwt, datetime, uuid
 
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
@@ -34,9 +34,10 @@ def getToken(useruid):
         print(e)
         return None
     else:
-        user.profile.token = re.escape(generateToken(useruid, user.profile.secret))
+        tokenStr = generateToken(useruid, user.profile.secret)
+        user.profile.token = tokrnStr.replace("'", ":") # Replace single quote with colon
         user.save()
-        return user.profile.token
+        return tokenStr
 
 def generateToken(useruid, secret):
     print("Generating token for user {}.".format(useruid))
@@ -52,7 +53,7 @@ def generateToken(useruid, secret):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        if(tokenToVerify == user.profile.token):
+        if(tokenToVerify.replace("'", ":") == user.profile.token):
             jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
             print("TOKEN VERIFIED!")
             return True
