@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-import jwt, datetime, uuid
+import jwt, datetime, uuid, re
 
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
@@ -36,7 +36,7 @@ def getToken(useruid):
         return None
     else:
         # If UserInfo data exists, just save new token
-        user.profile.token = generateToken(useruid, user.profile.secret)
+        user.profile.token = re.escape(generateToken(useruid, user.profile.secret))
         user.save()
         return user.profile.token
 
