@@ -55,7 +55,7 @@ def verifyToken(useruid, tokenToVerify):
         user = User.objects.get(username = useruid)
         if(tokenToVerify.replace("'", ":") == user.profile.token):
             print("NOW VERIFING.")
-            jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
+            jwt.decode(tokenToVerify, secret=user.profile.secret, audience=useruid)
             print("TOKEN VERIFIED!")
             return True
         else:
