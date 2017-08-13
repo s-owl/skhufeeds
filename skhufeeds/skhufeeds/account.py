@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-import jwt, datetime, uuid
+import datetime, uuid
+from jose import jwt
 
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
@@ -34,7 +35,7 @@ def getToken(useruid):
         print(e)
         return None
     else:
-        tokenStr = str(generateToken(useruid, user.profile.secret))
+        tokenStr = generateToken(useruid, user.profile.secret)
         user.profile.token = tokenStr.replace("'", ":") # Replace single quote with colon
         user.save()
         return tokenStr
@@ -64,12 +65,16 @@ def verifyToken(useruid, tokenToVerify):
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
-    except jwt.ExpiredSignatureError:
-        print("SIGNATURE ERROR!")
-        return False
-    except jwt.exceptions.InvalidAudienceError:
-        print("TOKEN INVALID!")
-        return False
-    except jwt.exceptions.DecodeError:
-        print("DECODE ERRPR!")
-        return False
+    except Exception as e:
+        print(e)
+        return None
+
+    # except jwt.ExpiredSignatureError:
+    #     print("SIGNATURE ERROR!")
+    #     return False
+    # except jwt.exceptions.InvalidAudienceError:
+    #     print("TOKEN INVALID!")
+    #     return False
+    # except jwt.exceptions.DecodeError:
+    #     print("DECODE ERRPR!")
+    #     return False
