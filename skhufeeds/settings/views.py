@@ -16,8 +16,9 @@ def authUser(request, useruid, token):
         return HttpResponseForbidden("만료된 URL 입니다.")
     else:
         login(request, user)
-        return HttpResponseRedirect("/") # Redirect user to index page of settings app
+        return HttpResponseRedirect("/settings") # Redirect user to index page of settings app
 
+# Settings index page
 @login_required
 def index(request):
     user = request.user
