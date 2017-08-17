@@ -1,6 +1,9 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from settings.models import Profile
+=======
+>>>>>>> master
 from skhufeeds import account
 
 class UrlTokenBackend(ModelBackend):

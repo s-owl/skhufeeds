@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-import jwt, datetime, uuid
+import datetime, uuid
+from jose import jwt
 
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
@@ -34,9 +35,10 @@ def getToken(useruid):
         print(e)
         return None
     else:
-        user.profile.token = generateToken(useruid, user.profile.secret)
+        tokenStr = generateToken(useruid, user.profile.secret)
+        user.profile.token = tokenStr.replace("'", ":") # Replace single quote with colon
         user.save()
-        return user.profile.token
+        return tokenStr
 
 def generateToken(useruid, secret):
     print("Generating token for user {}.".format(useruid))
@@ -52,7 +54,8 @@ def generateToken(useruid, secret):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        if(tokenToVerify == user.profile.token):
+        if(tokenToVerify.replace("'", ":") == user.profile.token):
+            print("NOW VERIFING.")
             jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
             print("TOKEN VERIFIED!")
             return True
@@ -62,9 +65,16 @@ def verifyToken(useruid, tokenToVerify):
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
-    except jwt.ExpiredSignatureError:
-        return False
-    except jwt.exceptions.InvalidAudienceError:
-        return False
-    except jwt.exceptions.DecodeError:
-        return False
+    except Exception as e:
+        print(e)
+        return None
+
+    # except jwt.ExpiredSignatureError:
+    #     print("SIGNATURE ERROR!")
+    #     return False
+    # except jwt.exceptions.InvalidAudienceError:
+    #     print("TOKEN INVALID!")
+    #     return False
+    # except jwt.exceptions.DecodeError:
+    #     print("DECODE ERRPR!")
+    #     return False

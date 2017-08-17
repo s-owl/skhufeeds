@@ -1,4 +1,4 @@
 
 Django==1.11.3
-PyJWT >= 1.0.1
+python-jose
 mysqlclient >= 1.3.10
