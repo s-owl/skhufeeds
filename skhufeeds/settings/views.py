@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
+from crawlers.models import Source
+from .models import Subscribed
 # Create your views here.
 
 ## authenticate user with useruid and jwt token
@@ -22,4 +24,16 @@ def authUser(request, useruid, token):
 @login_required
 def index(request):
     user = request.user
-    return HttpResponse("Hello, {}".format(user.username))
+    allSources = Source.objects.all()
+    subscribedSources = Subscribed.objects.filter(user=user)
+    subscribedList = list()
+    for item in subscribedSources:
+        subscribedList.append(item.source)
+
+    data = { 'all': allSources, 'subscribed': subscribedList }
+    return render(request, 'index.html', data)
+
+# Update Subscribtion Settings
+@login_required
+def updateItem(request):
+    return HttpResponse("아직 구현되지 않음.")

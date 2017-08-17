@@ -5,6 +5,25 @@
     <title>SKHUFEEDS 사용자 설정</title>
   </head>
   <body>
-    
+    {% for item in all %}
+      <div class="item">
+        <ul>
+          <li>
+            {{ item.name }}
+          </li>
+          <li>
+            {{ item.desc }}
+          </li>
+          <li>
+            {% if item in subscribed %}
+            구독해제
+            {% else %}
+            구독하기
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+
+    {% endfor %}
   </body>
 </html>

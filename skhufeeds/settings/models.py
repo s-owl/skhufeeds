@@ -32,6 +32,6 @@ def save_user_profile(sender, instance, **kwargs):
 
 #
 # 사용자 구독정보 모델
-class SubscribeList(models.Model):
+class Subscribed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete = models.CASCADE)
