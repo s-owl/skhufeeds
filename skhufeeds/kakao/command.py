@@ -5,7 +5,7 @@ import json, datetime
 from skhufeeds import account
 from . import command
 from django.contrib.auth.models import User
-from settings.models import UserInfo
+from settings.models import Profile
 from crawlers.models import Phone
 
 default = ['학교소식','연락처','학사일정','날씨','학식','설정']
@@ -20,7 +20,7 @@ def answer(request):
 
     try:
         user = User.objects.get(username = user_key)
-        userinfo = UserInfo.objects.get(user = user)
+        userinfo = Profile.objects.get(user = user)
     except User.DoesNotExist:
         updateLastCommand(command, userinfo)
         return JsonResponse({
