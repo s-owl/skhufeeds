@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from crawlers.models import Source
 from .models import Subscribed
@@ -36,4 +36,24 @@ def index(request):
 # Update Subscribtion Settings
 @login_required
 def updateItem(request):
-    return HttpResponse("아직 구현되지 않음.")
+    if request.method == 'POST':
+        source = Source.objects.get(source_id=request.POST.get("source_id"))
+        user = request.user
+
+        isSubscribedServer = Subscribed.objects.get(user=user, source=source)
+        isSubscribedClient = request.POST.get("is_subscribed")
+
+        if (isSubscribedClient=="true"):
+            if(isSubscribedServer != None):
+            # User wants to remove item. remove object from db
+            
+        elif (isSubscribedClient="false"):
+            if (isSubscribedServer == None):
+                # User wants to subscribe. Create and save new object
+                newSubscription = subscribe()
+                newSubscription.user = user
+                newSubscription.source = source
+                newSubscription.save()
+        return HttpResponse("아직 구현되지 않음.")
+    else:
+        return HttpResponseBadRequest()
