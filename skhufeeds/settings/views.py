@@ -40,20 +40,23 @@ def updateItem(request):
         source = Source.objects.get(source_id=request.POST.get("source_id"))
         user = request.user
 
-        isSubscribedServer = Subscribed.objects.get(user=user, source=source)
+        subscribedItem = Subscribed.objects.get(user=user, source=source)
         isSubscribedClient = request.POST.get("is_subscribed")
 
         if (isSubscribedClient=="true"):
-            if(isSubscribedServer != None):
-            # User wants to remove item. remove object from db
-            
+            if(subscribedItem != None):
+                # User wants to remove item. remove object from db
+                subscribedItem.delete()
+            return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
+
+
         elif (isSubscribedClient="false"):
-            if (isSubscribedServer == None):
+            if (subscribedItem == None):
                 # User wants to subscribe. Create and save new object
                 newSubscription = subscribe()
                 newSubscription.user = user
                 newSubscription.source = source
                 newSubscription.save()
-        return HttpResponse("아직 구현되지 않음.")
+                return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
     else:
         return HttpResponseBadRequest()
