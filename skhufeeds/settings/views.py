@@ -50,7 +50,7 @@ def updateItem(request):
             return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
 
 
-        elif (isSubscribedClient="false"):
+        elif (isSubscribedClient=="false"):
             if (subscribedItem == None):
                 # User wants to subscribe. Create and save new object
                 newSubscription = subscribe()
