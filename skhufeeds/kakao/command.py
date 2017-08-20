@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpRe
 from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 from skhufeeds import account
-from . import command
 from django.contrib.auth.models import User
 from settings.models import Profile
 from crawlers.models import Phone
