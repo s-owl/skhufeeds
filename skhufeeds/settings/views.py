@@ -27,8 +27,9 @@ def index(request):
     allSources = Source.objects.all()
     subscribedSources = Subscribed.objects.filter(user=user)
     subscribedList = list()
-    for item in subscribedSources:
-        subscribedList.append(item.source)
+    if subscribedSources != None and len(subscribedSources) > 0:
+        for item in subscribedSources:
+            subscribedList.append(item.source)
 
     data = { 'all': allSources, 'subscribed': subscribedList }
     return render(request, 'index.html', data)
