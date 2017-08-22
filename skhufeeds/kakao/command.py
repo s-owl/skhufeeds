@@ -59,7 +59,7 @@ def answer(request):
                 }
             })
 
-    elifuser.profile.last_command == '소속'):
+    elif (user.profile.last_command == '소속'):
         result2 = Phone.objects.filter(desc__contains = command)
         msg2 = ""
         for item2 in result2:
