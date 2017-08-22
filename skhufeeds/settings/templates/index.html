@@ -1,10 +1,47 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>SKHUFEEDS 사용자 설정</title>
+
+    <!-- Load CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static "settings/css/bootstrap.min.css" %}"/>
   </head>
   <body>
-    
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="#">SKHUFEEDS 사용자 설정</a>
+    </nav>
+    <!-- Content -->
+    <div class="container">
+      <div class="row">
+        {% for item in all %}
+        <form action="/settings/update_item" method="post">
+          <div class="col col-lg-2">
+            <div class="card" style="width: 20rem;">
+              <div class="card-body">
+                <h4 class="card-title">{{ item.name }}</h4>
+                <p class="card-text">{{ item.desc }}</p>
+                <input type="hidden" name="source_id" value="{{ item.source_id }}" />
+                {% if item in subscribed %}
+                <input type="hidden" name="is_subscribed" value="true" />
+                <button type="submit" class="btn btn-primary">구독해제</button>
+                {% else %}
+                <input type="hidden" name="is_subscribed" value="false" />
+                <button type="submit" class="btn btn-primary">구독하기</button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- Load JS -->
+    <script src="{% static "settings/js/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "settings/js/popper.min.js" %}"></script>
+    <script src="{% static "settings/js/bootstrap.min.js" %}"></script>
   </body>
 </html>

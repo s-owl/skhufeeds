@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from crawlers.models import Source
 
 
 # Create your models here.
@@ -31,6 +32,6 @@ def save_user_profile(sender, instance, **kwargs):
 
 #
 # 사용자 구독정보 모델
-class SubscribeList(models.Model):
+class Subscribed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    source_id = models.ForeignKey('crawlers.Sources', on_delete = models.CASCADE)
+    source = models.ForeignKey(Source, on_delete = models.CASCADE)
