@@ -38,7 +38,7 @@ def getToken(useruid):
         # Generate Token
         print("Generating token for user {}.".format(useruid))
         newToken = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
-        'aud': useruid}, secret)
+        'aud': user.username}, user.profile.secret)
         print(newToken)
         user.profile.token = str(newToken)
         user.save()
