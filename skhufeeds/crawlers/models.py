@@ -27,3 +27,6 @@ class Phone(models.Model):
     desc = models.TextField()
     phone = models.CharField(max_length = 45)
     email = models.EmailField()
+
+    def __str__(self):
+        return "{} : {} <{} / {}>".format(phone_id, name, phone, email)
