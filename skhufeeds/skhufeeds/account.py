@@ -36,7 +36,7 @@ def getToken(useruid):
         return None
     else:
         tokenStr = generateToken(useruid, user.profile.secret)
-        user.profile.token = tokenStr.replace("'", ":") # Replace single quote with colon
+        user.profile.token = tokenStr
         user.save()
         return tokenStr
 
@@ -54,7 +54,7 @@ def generateToken(useruid, secret):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        if(tokenToVerify.replace("'", ":") == user.profile.token):
+        if(tokenToVerify == user.profile.token):
             print("NOW VERIFING.")
             jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
             print("TOKEN VERIFIED!")
