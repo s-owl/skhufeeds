@@ -50,14 +50,14 @@ def getToken(useruid):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        if(tokenToVerify == user.profile.token):
-            print("NOW VERIFING.")
-            jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
-            print("TOKEN VERIFIED!")
-            return True
-        else:
-            print("VERIFICATION ERROR!")
-            return False
+        # if(tokenToVerify == user.profile.token):
+        print("NOW VERIFING.")
+        jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
+        print("TOKEN VERIFIED!")
+        return True
+        # else:
+        #     print("VERIFICATION ERROR!")
+        #     return False
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
