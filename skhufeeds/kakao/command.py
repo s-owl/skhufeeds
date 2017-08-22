@@ -5,7 +5,7 @@ import json, datetime
 from skhufeeds import account
 from django.contrib.auth.models import User
 from settings.models import Profile
-from crawlers.models import Phone
+from crawlers.models import Contact
 
 default = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
@@ -32,10 +32,10 @@ def answer(request):
             })
 
     if(user.profile.last_input == '성명'):
-        result = Phone.objects.filter(name = command)
+        result = Contact.objects.filter(name = command)
         msg = ""
         for item in result:
-            msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
+            msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Contact.name,Contact.phone,Contact.email)
         if(len(result)==0):
             updateLastCommand(command, user.profile)
             return JsonResponse({
@@ -60,10 +60,10 @@ def answer(request):
             })
 
     elif (user.profile.last_input == '소속'):
-        result2 = Phone.objects.filter(desc__contains = command)
+        result2 = Contact.objects.filter(desc__contains = command)
         msg2 = ""
         for item2 in result2:
-            msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Phone.name,Phone.phone,Phone.email)
+            msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Contact.name,Contact.phone,Contact.email)
         if(len(result2)==0):
             updateLastCommand(command,user.profile)
             return JsonResponse({

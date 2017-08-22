@@ -19,7 +19,7 @@ class NewsFeed(models.Model):
     )
 
 #연락처 데이터 모델
-class Phone(models.Model):
+class Contact(models.Model):
     name = models.CharField(max_length = 45)
     desc = models.TextField()
     phone = models.CharField(max_length = 45)
