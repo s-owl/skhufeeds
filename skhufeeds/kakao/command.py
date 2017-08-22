@@ -31,7 +31,7 @@ def answer(request):
                 }
             })
 
-    if(user.profile.last_command == '성명'):
+    if(user.profile.last_input == '성명'):
         result = Phone.objects.filter(name = command)
         msg = ""
         for item in result:
@@ -59,7 +59,7 @@ def answer(request):
                 }
             })
 
-    elif (user.profile.last_command == '소속'):
+    elif (user.profile.last_input == '소속'):
         result2 = Phone.objects.filter(desc__contains = command)
         msg2 = ""
         for item2 in result2:
@@ -174,5 +174,5 @@ def answer(request):
         return HttpResponseNotFound
 
 def updateLastCommand(command, userInfo):
-    userInfo.last_command = command
+    userInfo.last_input = command
     userInfo.save()
