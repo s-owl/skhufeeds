@@ -21,6 +21,7 @@
       <div class="row">
         {% for item in all %}
         <form action="/settings/update_item" method="post">
+          {% csrf_token %}
           <div class="col col-lg-2">
             <div class="card" style="width: 20rem;">
               <div class="card-body">
