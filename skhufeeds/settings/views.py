@@ -39,25 +39,24 @@ def index(request):
 def toggleSubscription(request):
     if request.method == 'POST':
         source = Source.objects.get(id=int(request.POST.get("source_id")))
-        user = request.user
-
-        subscribedItem = Subscribed.objects.get(user=user, source=source)
         isSubscribedClient = request.POST.get("is_subscribed")
-
-        if (isSubscribedClient=="true"):
-            if(subscribedItem != None):
-                # User wants to remove item. remove object from db
-                subscribedItem.delete()
-            return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
-
-
-        elif (isSubscribedClient=="false"):
-            if (subscribedItem == None):
+        user = request.user
+        
+        try:
+            subscribedItem = Subscribed.objects.get(user=user, source=source)
+        except Subscribed.DoesNotExist:
+            if (isSubscribedClient=="false"):
                 # User wants to subscribe. Create and save new object
                 newSubscription = Subscribed.objects.create()
                 newSubscription.user = user
                 newSubscription.source = source
                 newSubscription.save()
                 return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+        else:
+            if (isSubscribedClient=="true"):
+                # User wants to remove item. remove object from db
+                subscribedItem.delete()
+                return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
+
     else:
         return HttpResponseBadRequest()
