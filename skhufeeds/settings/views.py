@@ -38,7 +38,7 @@ def index(request):
 @login_required
 def toggleSubscription(request):
     if request.method == 'POST':
-        source = Source.objects.get(id=request.POST.get("source_id"))
+        source = Source.objects.get(id=int(request.POST.get("source_id")))
         user = request.user
 
         subscribedItem = Subscribed.objects.get(user=user, source=source)
