@@ -36,9 +36,9 @@ def index(request):
 
 # Update Subscribtion Settings
 @login_required
-def updateItem(request):
+def toggleSubscription(request):
     if request.method == 'POST':
-        source = Source.objects.get(source_id=request.POST.get("source_id"))
+        source = Source.objects.get(id=request.POST.get("source_id"))
         user = request.user
 
         subscribedItem = Subscribed.objects.get(user=user, source=source)
@@ -54,7 +54,7 @@ def updateItem(request):
         elif (isSubscribedClient=="false"):
             if (subscribedItem == None):
                 # User wants to subscribe. Create and save new object
-                newSubscription = subscribe()
+                newSubscription = Subscribed.objects.create()
                 newSubscription.user = user
                 newSubscription.source = source
                 newSubscription.save()
