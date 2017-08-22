@@ -35,18 +35,14 @@ def getToken(useruid):
         print(e)
         return None
     else:
-        tokenStr = generateToken(useruid, user.profile.secret)
-        user.profile.token = str(tokenStr)
+        # Generate Token
+        print("Generating token for user {}.".format(useruid))
+        newToken = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
+        'aud': useruid}, secret)
+        print(newToken)
+        user.profile.token = str(newToken)
         user.save()
-        return tokenStr
-
-def generateToken(useruid, secret):
-    print("Generating token for user {}.".format(useruid))
-    token = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
-    'aud': useruid}, secret)
-    print(token)
-    return token
-
+        return newToken
 
 # Function that verifies token
 # Returns True if verified, or False
