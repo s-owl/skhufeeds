@@ -36,7 +36,7 @@ def getToken(useruid):
         return None
     else:
         tokenStr = generateToken(useruid, user.profile.secret)
-        user.profile.token = tokenStr
+        user.profile.token = str(tokenStr)
         user.save()
         return tokenStr
 
