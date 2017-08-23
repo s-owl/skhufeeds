@@ -42,20 +42,23 @@ def toggleSubscription(request):
         isSubscribedClient = request.POST.get("is_subscribed")
         if request.user.is_authenticated():
             try:
-                user = User.objects.get(username=request.user.username)
-                subscribedItem = Subscribed.objects.get(user=user, source=source)
+                user = User.objects.get(id=request.user.id)
+                subscribedItem, created = Subscribed.objects.get_or_create(user=user, source=source)
             except User.DoesNotExist:
                 return HttpResponse("<script>alert('인증 오류.')</script>")
-            except Subscribed.DoesNotExist:
-                if (isSubscribedClient=="false"):
-                    # User wants to subscribe. Create and save new object
-                    newSubscription = Subscribed.objects.create()
-                    newSubscription.user = user
-                    newSubscription.source = source
-                    newSubscription.save()
-                    return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+            # except Subscribed.DoesNotExist:
+            #     if (isSubscribedClient=="false"):
+            #         # User wants to subscribe. Create and save new object
+            #         newSubscription = Subscribed.objects.create()
+            #         newSubscription.user = user
+            #         newSubscription.source = source
+            #         newSubscription.save()
+            #         return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
             else:
-                if (isSubscribedClient=="true"):
+                if created == True and isSubscribedClient == "false":
+                    subscribedItem.save()
+                    return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+                elif (isSubscribedClient=="true"):
                     # User wants to remove item. remove object from db
                     subscribedItem.delete()
                     return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
