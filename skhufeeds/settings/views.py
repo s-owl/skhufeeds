@@ -40,23 +40,26 @@ def toggleSubscription(request):
     if request.method == 'POST':
         source = Source.objects.get(id=int(request.POST.get("source_id")))
         isSubscribedClient = request.POST.get("is_subscribed")
-        user = request.user
-        print(user, user.username, user.id)
-        try:
-            subscribedItem = Subscribed.objects.get(user=user, source=source)
-        except Subscribed.DoesNotExist:
-            if (isSubscribedClient=="false"):
-                # User wants to subscribe. Create and save new object
-                newSubscription = Subscribed.objects.create()
-                newSubscription.user = user
-                newSubscription.source = source
-                newSubscription.save()
-                return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+        if request.user.is_authenticated()
+            try:
+                user = User.objects.get(username=request.user.username)
+                subscribedItem = Subscribed.objects.get(user=user, source=source)
+            except User.DoesNotExist:
+                return HttpResponse("<script>alert('인증 오류.')</script>")
+            except Subscribed.DoesNotExist:
+                if (isSubscribedClient=="false"):
+                    # User wants to subscribe. Create and save new object
+                    newSubscription = Subscribed.objects.create()
+                    newSubscription.user = user
+                    newSubscription.source = source
+                    newSubscription.save()
+                    return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+            else:
+                if (isSubscribedClient=="true"):
+                    # User wants to remove item. remove object from db
+                    subscribedItem.delete()
+                    return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
         else:
-            if (isSubscribedClient=="true"):
-                # User wants to remove item. remove object from db
-                subscribedItem.delete()
-                return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
-
+            HttpResponseForbidden("인증되지 않았습니다.")
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest("올바른 요청이 아닙니다.")
