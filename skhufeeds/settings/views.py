@@ -49,11 +49,11 @@ def toggleSubscription(request):
             else:
                 if created == True and isSubscribedClient == "false":
                     subscribedItem.save()
-                    return render(request, 'alert.html', {"alert","구독 처리 되었습니다."})
+                    return render(request, 'alert.html', {"alert":"구독 처리 되었습니다."})
                 elif (isSubscribedClient=="true"):
                     # User wants to remove item. remove object from db
                     subscribedItem.delete()
-                    return render(request, 'alert.html', {"alert","구독 해제 되었습니다."})
+                    return render(request, 'alert.html', {"alert":"구독 해제 되었습니다."})
         else:
             HttpResponseForbidden("인증되지 않았습니다.")
     else:
