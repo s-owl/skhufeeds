@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden, HttpResponseBadRequest
@@ -45,7 +45,7 @@ def toggleSubscription(request):
                 user = User.objects.get(id=request.user.id)
                 subscribedItem, created = Subscribed.objects.get_or_create(user=user, source=source)
             except User.DoesNotExist:
-                return HttpResponse("<script>alert('인증 오류.')</script>")
+                return HttpResponseForbidden("인증되지 않았습니다.")
             # except Subscribed.DoesNotExist:
             #     if (isSubscribedClient=="false"):
             #         # User wants to subscribe. Create and save new object
@@ -57,11 +57,11 @@ def toggleSubscription(request):
             else:
                 if created == True and isSubscribedClient == "false":
                     subscribedItem.save()
-                    return HttpResponse("<script>alert('구독 설정 되었습니다.')</script>")
+                    return redirect(reverse("/settings/"), {"alert":"구독 설정 되었습니다."})
                 elif (isSubscribedClient=="true"):
                     # User wants to remove item. remove object from db
                     subscribedItem.delete()
-                    return HttpResponse("<script>alert('구독 해제 되었습니다.')</script>")
+                    return redirect(reverse("/settings/"), {"alert":"구독 해제 되었습니다."})
         else:
             HttpResponseForbidden("인증되지 않았습니다.")
     else:

@@ -46,5 +46,13 @@
     <script src="{% static "settings/js/jquery-3.2.1.min.js" %}"></script>
     <script src="{% static "settings/js/popper.min.js" %}"></script>
     <script src="{% static "settings/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript">
+   $(function(){
+     {% if alert %}
+        //whatever conditions and js code
+        alert('{{alert}}');
+     {% endif %}
+   });
+  </script>
   </body>
 </html>
