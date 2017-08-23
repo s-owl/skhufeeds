@@ -40,7 +40,7 @@ def toggleSubscription(request):
     if request.method == 'POST':
         source = Source.objects.get(id=int(request.POST.get("source_id")))
         isSubscribedClient = request.POST.get("is_subscribed")
-        if request.user.is_authenticated()
+        if request.user.is_authenticated():
             try:
                 user = User.objects.get(username=request.user.username)
                 subscribedItem = Subscribed.objects.get(user=user, source=source)
