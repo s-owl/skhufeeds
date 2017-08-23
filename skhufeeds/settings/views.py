@@ -41,7 +41,7 @@ def toggleSubscription(request):
         source = Source.objects.get(id=int(request.POST.get("source_id")))
         isSubscribedClient = request.POST.get("is_subscribed")
         user = request.user
-        
+        print(user, user.username, user.id)
         try:
             subscribedItem = Subscribed.objects.get(user=user, source=source)
         except Subscribed.DoesNotExist:
