@@ -8,7 +8,7 @@ list1 = [info.run(), manage.run(), welfare_student.run()]
 print(list1)
 for group in list1:
     for item in group:
-        phone = Phone
+        phone = Contact.objects.create()
         phone.name = item['name']
         phone.desc = item['class'] + item['task'] + item['fax']
         phone.phone = models.CharField['phone']
