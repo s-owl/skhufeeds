@@ -36,5 +36,5 @@ class Subscribed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete = models.CASCADE)
 
-    class Meta:
-        unique_together = ('user', 'source')
+    # class Meta:
+    #     unique_together = ('user', 'source')
