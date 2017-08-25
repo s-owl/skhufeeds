@@ -3,7 +3,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
 
 def run():
-    html = urlopen("http://www.skhu.ac.kr/board/boardlist.aspx?bsid=10005&searchBun=53")
+    url = "http://www.skhu.ac.kr/board/boardlist.aspx?bsid=10005&searchBun=53"
+    html = urlopen(url)
     bs0bj = BeautifulSoup(html.read(),"html.parser")
 
     data = list():
@@ -14,4 +15,8 @@ def run():
             link = "http://www.skhu.ac.kr/board/" + item.a['href']
             print(title,link)
             data.append({'name':'title', 'address':'link'})
-    return data
+
+    return { "data":data,
+            "source":{"name":"학점교류공지",
+                    "url":url,
+                    "desc":""}}
