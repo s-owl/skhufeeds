@@ -9,7 +9,7 @@ class Source(models.Model):
 
 #피드 데이터 모델
 class NewsFeed(models.Model):
-    time = models.TimeField()
+    time = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length = 45)
     summary = models.CharField(max_length = 100)
     url = models.URLField()

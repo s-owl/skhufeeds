@@ -32,10 +32,10 @@ def answer(request):
             })
 
     if(user.profile.last_input == '성명'):
-        result = Contact.objects.filter(name = command)
+        result = Contact.objects.filter(name__contains = command)
         msg = ""
         for item in result:
-            msg += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Contact.name,Contact.phone,Contact.email)
+            msg += '{}\n   소속: {}\n   내선번호: {}\n   e-mail: {}\n'.format(item.name,item.desc,item.phone,item.email)
         if(len(result)==0):
             updateLastCommand(command, user.profile)
             return JsonResponse({
@@ -63,7 +63,7 @@ def answer(request):
         result2 = Contact.objects.filter(desc__contains = command)
         msg2 = ""
         for item2 in result2:
-            msg2 += '{}:\n   내선번호: {}\n  e-mail: {}\n'.format(Contact.name,Contact.phone,Contact.email)
+            msg2 += '{}\n   소속: {}\n   내선번호: {}\n   e-mail: {}\n\n'.format(item2.name,item2.desc,item2.phone,item2.email)
         if(len(result2)==0):
             updateLastCommand(command,user.profile)
             return JsonResponse({

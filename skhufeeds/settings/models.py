@@ -18,7 +18,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     token = models.TextField(blank=True) # Login token
     secret = models.TextField(blank=True) # Secret for JWT Encryption
-    last_pull = models.DateField(null=True, blank=True) # Last pull date & time
+    last_pull = models.DateTimeField(null=True, blank=True) # Last pull date & time
     last_input = models.CharField(max_length=10, blank=True) # Last Input of the user
 
 @receiver(post_save, sender=User)
@@ -36,5 +36,5 @@ class Subscribed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete = models.CASCADE)
 
-    class Meta:
-        unique_together = ('user', 'source')
+    # class Meta:
+    #     unique_together = ('user', 'source')
