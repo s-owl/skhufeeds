@@ -7,7 +7,7 @@ def run():
     html = urlopen(url)
     bs0bj = BeautifulSoup(html.read(),"html.parser")
 
-    data = list():
+    data = list()
     for child in bs0bj.find("div",{"id":"cont"}).table.tbody.children:
         if isinstance(child, Tag):
             item = child.find("td",{"class","left15"})

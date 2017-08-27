@@ -1,8 +1,8 @@
-from models import Source, NewsFeeds, Contact
+from .models import Source, NewsFeed, Contact
 import datetime
-from crawlers.notice import college, credit, event, lesson, notice, scholarship
-from crawlers.info import info, manage, welfare_student
-from crawlers import academic_calendar, menu, skhu, weather
+from .crawlers.notice import college, credit, event, lesson, notice, scholarship
+from .crawlers.info import info, manage, welfare_student
+from .crawlers import academic_calendar, menu, skhu, weather
 from background_task import background
 
 @background(schedule=10)
@@ -29,5 +29,5 @@ def run_crawler():
             news.save()
 
 
-list3 = [academic_calendar.run(), menu.run(), skhu.run(), weather.run()]
+list3 = [academic_calendar.run(), menu.run(), weather.run()]
 print(list3)

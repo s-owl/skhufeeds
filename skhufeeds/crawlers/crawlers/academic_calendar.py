@@ -6,7 +6,7 @@ def run():
     html = urlopen("http://www.skhu.ac.kr/calendar/calendar_list_1.aspx")
     bs0bj = BeautifulSoup(html.read(),"html.parser")
 
-    data = list():
+    data = list()
 
     for child in bs0bj.find("div",{"class","info"}).table.tbody.children:
         if isinstance(child, Tag):
