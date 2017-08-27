@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kakao',
     'settings',
-    'crawlers'
+    'crawlers',
+	'background_task'
 ]
 
 MIDDLEWARE = [
