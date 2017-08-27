@@ -29,6 +29,5 @@ def run_crawler():
             news.save()
 
 
-
-    list3 = [academic_calendar.run(), menu.run(), skhu.run(), weather.run()]
-    print(list3)
+list3 = [academic_calendar.run(), menu.run(), skhu.run(), weather.run()]
+print(list3)
