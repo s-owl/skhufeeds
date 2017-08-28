@@ -4,18 +4,22 @@ from .crawlers.notice import college, credit, event, lesson, notice, scholarship
 from .crawlers.info import info, manage, welfare_student
 from .crawlers import academic_calendar, menu, skhu, weather
 from django.dispatch import receiver
-from django.db.backends.signals import connection_created
+from django.core.signals import request_started
 
+pulltime = datetime.datetime.utcnow()
 
-def db_connected(sender, connection, **kwargs):
-    ## When DB connection is ready.
-    print("DB Connection Ready.")
-    t = threading.Thread(target=run_crawler)
-    t.start()
+def http_req_started(sender, connection, **kwargs):
+    ## When receiving http request start event
+    now = datetime.datetime.utcnow()
+    if ( now > pulltime):
+        t = threading.Thread(target=run_crawler)
+        t.daemon = True
+        t.start()
+        pulltime = now + datetime.timedelta(hour=1)
 
 
 # DB connect event
-connection_created.connect(db_connected)
+request_started.connect(http_req_started)
 
 def run_crawler():
     while True:
@@ -49,8 +53,6 @@ def run_crawler():
                     summary ="",
                     url = item['url']
                 )
-        # Run run_crawler again in an hour
-        time.sleep(3600)
 
 
 # list3 = [academic_calendar.run(), menu.run(), weather.run()]
