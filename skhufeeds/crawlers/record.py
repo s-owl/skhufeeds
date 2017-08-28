@@ -22,7 +22,7 @@ def run_crawler():
     print(list1)
     for group in list1:
         for item in group:
-            contact = Contact.objects.get_or_create(
+            contact, created = Contact.objects.get_or_create(
                 name=item['name'],
                 desc = item['class'] + item['task'] + item['fax'],
                 phone = item['phone']
@@ -39,7 +39,7 @@ def run_crawler():
             source.desc = srcDic['desc']
             source.save()
 
-            feed = NewsFeed.objects.get_or_create(
+            feed, created = NewsFeed.objects.get_or_create(
                 source=source,
                 title = item['title'],
                 summary ="",
