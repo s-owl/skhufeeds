@@ -41,13 +41,12 @@ def run_crawler():
             source.desc = srcDic['desc']
             source.save()
 
-            feed, created = NewsFeed.objects.get_or_create(
+            NewsFeed.objects.get_or_create(
                 source=source,
                 title = item['title'],
                 summary ="",
                 url = item['url']
             )
-            feed.save()
 
 
 # list3 = [academic_calendar.run(), menu.run(), weather.run()]
