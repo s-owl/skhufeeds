@@ -40,10 +40,10 @@ def run_crawler():
             source.save()
 
             feed = NewsFeed.objects.get_or_create(
-                source=source
+                source=source,
                 title = item['title'],
                 summary ="",
-                url = item['link'],
+                url = item['link']
             )
             feed.save()
 
