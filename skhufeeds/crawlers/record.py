@@ -8,7 +8,7 @@ from django.core.signals import request_started
 
 pulltime = datetime.datetime.utcnow()
 
-@receiver(equest_started)
+@receiver(request_started)
 def http_req_started(sender, **kwargs):
     ## When receiving http request start event
     now = datetime.datetime.utcnow()
