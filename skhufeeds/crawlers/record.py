@@ -18,9 +18,9 @@ connection_created.connect(db_connected)
 @background(schedule=10)
 def run_crawler():
     print("Running Crawling tasks")
-    list1 = [info.run(), manage.run(), welfare_student.run()]
-    print(list1)
-    for group in list1:
+    contactList = [info.run(), manage.run(), welfare_student.run()]
+    print(contactList)
+    for group in contactList:
         for item in group:
             contact, created = Contact.objects.get_or_create(
                 name=item['name'],
@@ -29,11 +29,12 @@ def run_crawler():
             )
             contact.save()
 
-    list2 = [college.run(), credit.run(), event.run(), lesson.run(), notice.run(), scholarship.run()]
-    print(list2)
-    for main in list1:
-        for item in main['data']:
-            srcDic = main['source']
+    feedsList = [college.run(), credit.run(), event.run(), lesson.run(), notice.run(), scholarship.run()]
+    print(feedsList)
+    for main in feedsList:
+        data = main['data']
+        srcDic = main['source']
+        for item in data:
             source = get_or_create(url=srcDic['url'])
             source.name = srcDic['name']
             source.desc = srcDic['desc']
