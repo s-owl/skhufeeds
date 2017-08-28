@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from crawlers.record import run_crawler
+from crawlers import record
 
 
 urlpatterns = [
@@ -23,6 +23,3 @@ urlpatterns = [
     url(r'^kakao/', include('kakao.urls')),
     url(r'^settings/', include('settings.urls'))
 ]
-
-#repeat crawling task for every hour
-run_crawler(repeat = 60*60)

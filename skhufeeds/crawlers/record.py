@@ -4,6 +4,15 @@ from .crawlers.notice import college, credit, event, lesson, notice, scholarship
 from .crawlers.info import info, manage, welfare_student
 from .crawlers import academic_calendar, menu, skhu, weather
 from background_task import background
+from django.dispatch import receiver
+from django.db.backends.signals import connection_created
+
+def db_connected(sender, connection, **kwargs):
+    #repeat crawling task for every hour
+    print("DB Connection Ready.")
+    run_crawler(repeat = 60*60)
+
+connection_created.connect(db_connected)
 
 @background(schedule=10)
 def run_crawler():
