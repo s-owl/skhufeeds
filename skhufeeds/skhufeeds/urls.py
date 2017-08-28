@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^kakao/', include('kakao.urls')),
     url(r'^settings/', include('settings.urls'))
 ]
-run_crawler(repeat = 60*60) #repeat every one hour
+
+#repeat crawling task for every hour
+run_crawler(repeat = 60*60)

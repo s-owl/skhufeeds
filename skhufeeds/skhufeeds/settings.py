@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'background_task',
     'kakao',
     'settings',
-    'crawlers',
-	'background_task'
+    'crawlers'
 ]
 
 MIDDLEWARE = [
