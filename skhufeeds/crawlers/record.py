@@ -10,8 +10,9 @@ from django.db.backends.signals import connection_created
 def db_connected(sender, connection, **kwargs):
     #repeat crawling task for every hour
     print("DB Connection Ready.")
-    run_crawler(repeat = 60*60)
+    run_crawler(repeat=3600)
 
+# DB connect event
 connection_created.connect(db_connected)
 
 @background(schedule=10)
@@ -21,23 +22,31 @@ def run_crawler():
     print(list1)
     for group in list1:
         for item in group:
-            phone = Contact.objects.create()
-            phone.name = item['name']
-            phone.desc = item['class'] + item['task'] + item['fax']
-            phone.phone = models.CharField['phone']
-            phone.save()
+            contact = Contact.objects.get_or_create(
+                name=item['name'],
+                desc = item['class'] + item['task'] + item['fax'],
+                phone = item['phone']
+            )
+            contact.save()
 
     list2 = [college.run(), credit.run(), event.run(), lesson.run(), notice.run(), scholarship.run()]
     print(list2)
     for main in list1:
-        for top in main:
-            news = NewsFeeds()
-            news.time = datetime.datetime.utcnow()
-            news.title = top['title']
-            news.summary =""
-            news.url = top['link']
-            news.save()
+        for item in main['data']:
+            srcDic = main['source']
+            source = get_or_create(url=srcDic['url'])
+            source.name = srcDic['name']
+            source.desc = srcDic['desc']
+            source.save()
+
+            feed = NewsFeed.objects.get_or_create(
+                source=source
+                title = item['title'],
+                summary ="",
+                url = item['link'],
+            )
+            feed.save()
 
 
-list3 = [academic_calendar.run(), menu.run(), weather.run()]
-print(list3)
+# list3 = [academic_calendar.run(), menu.run(), weather.run()]
+# print(list3)
