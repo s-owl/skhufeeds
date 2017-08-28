@@ -16,7 +16,11 @@ def run():
             print(title,link)
             data.append({'name':'title', 'address':'link'})
 
-    return { "data":data,
-            "source":{"name":"학사공지",
-                    "url":url,
-                    "desc":""}}
+    return {
+            "data": data,
+            "source": {
+                "name": "학사 공지",
+                "url": url,
+                "desc": ""
+                }
+            }

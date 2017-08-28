@@ -23,7 +23,7 @@ def run_crawler():
     for group in contactList:
         for item in group:
             contact, created = Contact.objects.get_or_create(
-                name=item['name'],
+                name = item['name'],
                 desc = item['class'] + item['task'] + item['fax'],
                 phone = item['phone']
             )
