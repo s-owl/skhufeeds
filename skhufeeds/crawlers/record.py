@@ -11,6 +11,7 @@ pulltime = datetime.datetime.utcnow()
 @receiver(request_started)
 def http_req_started(sender, **kwargs):
     ## When receiving http request start event
+    global pulltime
     now = datetime.datetime.utcnow()
     if ( now > pulltime):
         t = threading.Thread(target=run_crawler)
