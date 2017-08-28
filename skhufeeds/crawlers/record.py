@@ -35,7 +35,7 @@ def run_crawler():
         data = main['data']
         srcDic = main['source']
         for item in data:
-            source = get_or_create(url=srcDic['url'])
+            source = Source.objects.get_or_create(url=srcDic['url'])
             source.name = srcDic['name']
             source.desc = srcDic['desc']
             source.save()
