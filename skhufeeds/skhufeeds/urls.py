@@ -17,9 +17,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from crawlers.record import run_crawler
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^kakao/', include('kakao.urls')),
     url(r'^settings/', include('settings.urls'))
 ]
-run_crawler(repeat = Task.HOURLY)
+run_crawler(repeat = 60*60) #repeat every one hour
