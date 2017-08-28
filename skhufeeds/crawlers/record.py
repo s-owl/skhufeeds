@@ -45,7 +45,7 @@ def run_crawler():
                 source=source,
                 title = item['title'],
                 summary ="",
-                url = item['link']
+                url = item['url']
             )
             feed.save()
 

@@ -14,7 +14,7 @@ def run():
             title = item.get_text()
             link = "http://www.skhu.ac.kr/board/" + item.a['href']
             print(title,link)
-            data.append({'name': title, 'address':link})
+            data.append({'title': title, 'url':link})
 
     return {
             "data": data,
