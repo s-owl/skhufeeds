@@ -16,6 +16,7 @@ connection_created.connect(db_connected)
 
 @background(schedule=10)
 def run_crawler():
+    print("Running Crawling tasks")
     list1 = [info.run(), manage.run(), welfare_student.run()]
     print(list1)
     for group in list1:
