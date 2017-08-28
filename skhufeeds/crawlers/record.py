@@ -8,7 +8,8 @@ from django.core.signals import request_started
 
 pulltime = datetime.datetime.utcnow()
 
-def http_req_started(sender, connection, **kwargs):
+@receiver(equest_started)
+def http_req_started(sender, **kwargs):
     ## When receiving http request start event
     now = datetime.datetime.utcnow()
     if ( now > pulltime):
@@ -17,9 +18,6 @@ def http_req_started(sender, connection, **kwargs):
         t.start()
         pulltime = now + datetime.timedelta(hour=1)
 
-
-# DB connect event
-request_started.connect(http_req_started)
 
 def run_crawler():
     while True:
