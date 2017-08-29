@@ -6,25 +6,20 @@ from .crawlers.notice import college, credit, event, lesson, notice, scholarship
 from .crawlers.info import info, manage, welfare_student
 from .crawlers import academic_calendar, menu, skhu, weather
 from django.dispatch import receiver
-from django.db.backends.signals import connection_created
+from django.core.signals import request_started
 from celery import shared_task
 
 # # When database is ready
 
+pulltime = datetime.datetime.utcnow()
 
-@receiver(connection_created)
+@receiver(request_started)
 def db_connected(sender, **kwargs):
-    print("DB connection created")
-    t = threading.Thread(target=task_repeat)
-    t.daemon = True
-    t.start()
-
-
-def task_repeat():
-    # Repeat task every hour
-    while True:
+    global pulltime
+    time_now = datetime.datetime.utcnow()
+    if(time_now > pulltime):
         run_crawler.apply_async(countdown=5)
-        time.sleep(3600)
+        pulltime = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
 
 
 @shared_task  # This function will ran asynchronously via Celery
