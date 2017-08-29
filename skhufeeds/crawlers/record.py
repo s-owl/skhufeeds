@@ -7,17 +7,18 @@ from django.dispatch import receiver
 from django.db.backends.signals import connection_created
 from celery import shared_task
 
-# When database is ready
-@receiver(connection_created)
-def db_connected(sender, **kwargs):
-    t = threading.Thread(target=task_repeat)
-    t.start()
-
-def task_repeat():
-    # Repeat task every hour
-    while True:
-        run_crawler.delay(10)
-        time.sleep(3600)
+# # When database is ready
+# @receiver(connection_created)
+# def db_connected(sender, **kwargs):
+#     t = threading.Thread(target=task_repeat)
+#     t.daemon = True
+#     t.start()
+#
+# def task_repeat():
+#     # Repeat task every hour
+#     while True:
+#         run_crawler.delay(10)
+#         time.sleep(3600)
 
 @shared_task # This function will ran asynchronously via Celery
 def run_crawler():
