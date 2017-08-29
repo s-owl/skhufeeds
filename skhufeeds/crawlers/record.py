@@ -4,22 +4,22 @@ from .crawlers.notice import college, credit, event, lesson, notice, scholarship
 from .crawlers.info import info, manage, welfare_student
 from .crawlers import academic_calendar, menu, skhu, weather
 from django.dispatch import receiver
-from django.core.signals import request_started
+from django.db.backends.signals import connection_created
+from celery import shared_task
 
-pulltime = datetime.datetime.utcnow()
+# When database is ready
+@receiver(connection_created)
+def db_connected(sender, **kwargs):
+    t = threading.Thread(target=task_repeat)
+    t.start()
 
-@receiver(request_started)
-def http_req_started(sender, **kwargs):
-    ## When receiving http request start event
-    global pulltime
-    now = datetime.datetime.utcnow()
-    if ( now > pulltime):
-        t = threading.Thread(target=run_crawler)
-        t.daemon = True
-        t.start()
-        pulltime = now + datetime.timedelta(hour=1)
+def task_repeat():
+    # Repeat task every hour
+    while True:
+        run_crawler.delay(10)
+        time.sleep(3600)
 
-
+@shared_task # This function will ran asynchronously via Celery
 def run_crawler():
     while True:
         print("Running Crawling tasks")
