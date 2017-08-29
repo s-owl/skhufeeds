@@ -18,10 +18,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 # Schedule periodic task
-@app.on_after_configure.connect
-def setup_periodic_tasks(sender, **kwargs):
+#@app.on_after_configure.connect
+#def setup_periodic_tasks(sender, **kwargs):
     # run every 3600 seconds.
     # Schedule using celery beat
-    print("Configuring periodic task")
-    from crawlers.record import run_crawler
-    sender.add_periodic_task(3600.0, run_crawler.delay(10.0))
+#    print("Configuring periodic task")
+#    from crawlers.record import run_crawler
+#    sender.add_periodic_task(10.0, run_crawler.s())

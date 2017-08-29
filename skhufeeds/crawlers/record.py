@@ -8,8 +8,9 @@ from django.db.backends.signals import connection_created
 from celery import shared_task
 
 # # When database is ready
-# @receiver(connection_created)
-# def db_connected(sender, **kwargs):
+@receiver(connection_created)
+def db_connected(sender, **kwargs):
+      run_crawler.apply_async(countdown=5)
 #     t = threading.Thread(target=task_repeat)
 #     t.daemon = True
 #     t.start()
@@ -22,7 +23,7 @@ from celery import shared_task
 
 @shared_task # This function will ran asynchronously via Celery
 def run_crawler():
-    while True:
+#    while True:
         print("Running Crawling tasks")
         contactList = [info.run(), manage.run(), welfare_student.run()]
         print(contactList)
