@@ -16,7 +16,5 @@ def run():
 
     today = tree[0][5].text
 
-    result =  """{} ~ {}:00 일기예보 \n
-            현재 기온은 {}°C 이며, 날씨상태는 {}입니다\n
-            비가 올 확률은 {}% 입니다""".format(today, hour, temp, condition, rain_prob)
+    result =  """{} ~ {}:00 일기예보\n\n현재 기온은 {}°C 이며, 날씨상태는 {}입니다\n비가 올 확률은 {}% 입니다""".format(today, hour, temp, condition, rain_prob)
     return result

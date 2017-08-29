@@ -116,7 +116,7 @@ def answer(request):
         return JsonResponse({
 
             'message' : {
-                'text': today_date + ' 날씨' + ':\n' + weather.run()
+                'text':  weather.run()
             },
             'keyboard': {
                 'type' : 'buttons',
