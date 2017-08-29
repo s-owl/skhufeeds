@@ -14,6 +14,7 @@ from celery import shared_task
 
 @receiver(connection_created)
 def db_connected(sender, **kwargs):
+    print("DB connection created")
     t = threading.Thread(target=task_repeat)
     t.daemon = True
     t.start()
