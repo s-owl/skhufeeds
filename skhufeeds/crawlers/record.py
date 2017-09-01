@@ -25,7 +25,7 @@ def db_connected(sender, **kwargs):
 
 @shared_task  # This function will ran asynchronously via Celery
 def run_crawler():
-    shortener = Shortener('Google', api_key=settings.GOO_GL_ALI_KEY)
+    shortener = Shortener('Google', api_key=settings.GOO_GL_ALI_KEY, timeout=60)
     print("Running Crawling tasks")
     contactList = [info.run(), manage.run(), welfare_student.run()]
     print(contactList)
@@ -59,7 +59,6 @@ def run_crawler():
                 summary="",
                 url=shorturl
             )
-            time.sleep(1)
     print("Task DONE!")
 
 
