@@ -102,10 +102,13 @@ def answer(request):
             })
     elif(command == '학교소식'):
         updateLastCommand(command,user.profile)
+        newsfeeds = getnews.query_news(user)
+        user.profile.last_pull = datetime.datetime.utcnow()
+        user.save()
         return JsonResponse({
 
             'message' : {
-                'text': today_date + ' 학교소식:\n' + getnews.query_news(user)
+                'text': today_date + ' 학교소식:\n' + newsfeeds
             },
             'keyboard': {
                 'type' : 'buttons',
