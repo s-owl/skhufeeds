@@ -59,6 +59,7 @@ def run_crawler():
                 summary="",
                 url=shorturl
             )
+            time.sleep(1)
     print("Task DONE!")
 
 
