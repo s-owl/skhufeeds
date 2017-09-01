@@ -8,7 +8,7 @@ from .crawlers import academic_calendar, menu, skhu, weather
 from django.dispatch import receiver
 from django.core.signals import request_started
 from celery import shared_task
-
+from pyshorteners import Shortener
 # # When database is ready
 
 pulltime = datetime.datetime.utcnow()
@@ -24,6 +24,7 @@ def db_connected(sender, **kwargs):
 
 @shared_task  # This function will ran asynchronously via Celery
 def run_crawler():
+    shortener = Shortener('Tinyurl')
     print("Running Crawling tasks")
     contactList = [info.run(), manage.run(), welfare_student.run()]
     print(contactList)
@@ -44,7 +45,8 @@ def run_crawler():
         srcDic = main['source']
         print(srcDic)
         for item in data:
-            source, created = Source.objects.get_or_create(url=srcDic['url'])
+            shorturl = shortener.short(srcDic['url'])
+            source, created = Source.objects.get_or_create(url=shorturl)
             source.name = srcDic['name']
             source.desc = srcDic['desc']
             source.save()
