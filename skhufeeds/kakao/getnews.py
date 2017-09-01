@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 def query_news(user):
     newsfeeds = ""
-    sub_list = Subscribed.objects.filter(User=user)
+    sub_list = Subscribed.objects.filter(user=user)
     last_pull = user.profile.last_pull
     for sub in sub_list:
         feeds = NewsFeed.objects.filter(source=sub.source, time__gte=last_pull)
