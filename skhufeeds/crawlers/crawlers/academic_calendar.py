@@ -13,6 +13,6 @@ def run():
             date = child.find("td",{"class","day"})
             contents = child.find("td",{"class","txt"})
             if isinstance(date, Tag):
-                print(date.get_text(), contents.get_text())
-                data.append({"1":"date","2":"contents"})
+                # print(date.get_text(), contents.get_text())
+                data.append({"1":date.get_text(),"2":contents.get_text()})
     return data
