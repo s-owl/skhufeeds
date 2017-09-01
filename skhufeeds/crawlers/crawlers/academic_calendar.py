@@ -6,7 +6,7 @@ def run():
     html = urlopen("http://www.skhu.ac.kr/calendar/calendar_list_1.aspx")
     bs0bj = BeautifulSoup(html.read(),"html.parser")
 
-    data = list()
+    data = ""
 
     for child in bs0bj.find("div",{"class","info"}).table.tbody.children:
         if isinstance(child, Tag):
@@ -14,5 +14,5 @@ def run():
             contents = child.find("td",{"class","txt"})
             if isinstance(date, Tag):
                 # print(date.get_text(), contents.get_text())
-                data.append({"1":date.get_text(),"2":contents.get_text()})
+                data+="[{}] {}\n".format(date.get_text(), contents.get_text())
     return data
