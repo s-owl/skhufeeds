@@ -9,8 +9,8 @@ def query_news(user):
     for sub in sub_list:
         feeds = NewsFeed.objects.filter(source=sub.source, time__gte=last_pull)
         if(len(feeds)==0):
-            feeds = NewsFeed.objects.filter(source=sub.source).order_by('-time')[:5]
+            feeds = NewsFeed.objects.filter(source=sub.source).order_by('-time')[:3]
         for feed in feeds:
-            newsfeeds = newsfeeds + "[{}]\n{}\n{}\n--------------------\n".format(sub.source.name, feed.title, feed.url)
+            newsfeeds = newsfeeds + "[{}]\n{}\n{}\n\n".format(sub.source.name, feed.title, feed.url)
 
     return newsfeeds
