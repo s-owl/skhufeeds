@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.core.signals import request_started
 from celery import shared_task
 from pyshorteners import Shortener
+from django.conf import settings
 # # When database is ready
 
 pulltime = datetime.datetime.utcnow()
@@ -24,7 +25,7 @@ def db_connected(sender, **kwargs):
 
 @shared_task  # This function will ran asynchronously via Celery
 def run_crawler():
-    shortener = Shortener('Tinyurl')
+    shortener = Shortener('Google', api_key=settings.GOO_GL_ALI_KEY)
     print("Running Crawling tasks")
     contactList = [info.run(), manage.run(), welfare_student.run()]
     print(contactList)
@@ -44,7 +45,7 @@ def run_crawler():
         data = main['data']
         srcDic = main['source']
         print(srcDic)
-        
+
         source, created = Source.objects.get_or_create(url=srcDic['url'])
         source.name = srcDic['name']
         source.desc = srcDic['desc']
