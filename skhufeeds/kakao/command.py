@@ -110,7 +110,7 @@ def answer(request):
         return JsonResponse({
 
             'message' : {
-                'text': today_date + ' 학교소식:\n' + newsfeeds
+                'text': "[{} 학교소식]\n".format(today_date) + newsfeeds
             },
             'keyboard': {
                 'type' : 'buttons',
