@@ -15,4 +15,4 @@ def run():
             if isinstance(date, Tag):
                 print(date.get_text(), contents.get_text())
                 data.append({"1":"date","2":"contents"})
-        return data
+    return data
