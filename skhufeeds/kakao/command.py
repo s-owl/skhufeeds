@@ -8,7 +8,7 @@ from settings.models import Profile
 from crawlers.models import Contact
 from crawlers.crawlers import weather, academic_calendar
 from . import getnews
-default = ['학교소식','연락처','학사일정','날씨','학식','설정']
+default = ['학교소식','연락처','학사일정','날씨','설정']
 
 @csrf_exempt
 def answer(request):

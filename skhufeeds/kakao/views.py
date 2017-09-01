@@ -6,7 +6,7 @@ from skhufeeds import account
 from . import command
 
 
-default = ['학교소식','연락처','학사일정','날씨','학식','설정']
+default = ['학교소식','연락처','학사일정','날씨','설정']
 
 # Create your views here.
 def index(request):
