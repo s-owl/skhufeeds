@@ -44,18 +44,19 @@ def run_crawler():
         data = main['data']
         srcDic = main['source']
         print(srcDic)
-        for item in data:
-            shorturl = shortener.short(srcDic['url'])
-            source, created = Source.objects.get_or_create(url=shorturl)
-            source.name = srcDic['name']
-            source.desc = srcDic['desc']
-            source.save()
+        
+        source, created = Source.objects.get_or_create(url=srcDic['url'])
+        source.name = srcDic['name']
+        source.desc = srcDic['desc']
+        source.save()
 
+        for item in data:
+            shorturl = shortener.short(item['url'])
             NewsFeed.objects.get_or_create(
                 source=source,
                 title=item['title'],
                 summary="",
-                url=item['url']
+                url=shorturl
             )
     print("Task DONE!")
 
