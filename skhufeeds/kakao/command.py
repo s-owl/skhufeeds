@@ -176,7 +176,7 @@ def answer(request):
                 'type' : 'text'
             }
         })
-    elif(command == '학사일정')
+    elif(command == '학사일정'):
         return JsonResponse({
             'message':{
                 'text': '[{}월 학사일정]\n\n{}'.format.(datetime.datetime.now().month, academic_calendar.run())
