@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from settings.models import Profile
 from crawlers.models import Contact
 from crawlers.crawlers import weather
+from . import getnews
 
 default = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
@@ -104,7 +105,7 @@ def answer(request):
         return JsonResponse({
 
             'message' : {
-                'text': today_date + ' ' + command + ': 없음'
+                'text': today_date + ' 학교소식:\n' + getnews.query_news(user)
             },
             'keyboard': {
                 'type' : 'buttons',
