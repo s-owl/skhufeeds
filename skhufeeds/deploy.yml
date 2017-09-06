@@ -89,6 +89,7 @@ services:
       MYSQL_DATABASE: skhufeedsdb
     volumes:
       - database-vol:/var/lib/mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
 # Networks for docker services
 networks:
