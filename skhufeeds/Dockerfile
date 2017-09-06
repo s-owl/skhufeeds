@@ -1,4 +1,4 @@
-FROM python:3-slim
+FROM python:latest
 
 # 앱 디렉터리 생성
 RUN mkdir -p /usr/src/app
@@ -9,7 +9,7 @@ COPY . /usr/src/app
 
 # 의존성 설치 - Python 모듈 패키지
 RUN apt update -y && apt install -y mysql-client libmysqlclient-dev \
-  && pip install -r requirements.txt
+  && pip3 install -r requirements.txt
 
 # 3000 번 포트 노출
 EXPOSE 3000
