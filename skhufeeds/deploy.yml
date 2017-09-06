@@ -74,9 +74,9 @@ services:
     deploy:
       replicas: 1
 
-  # MariaDB Database
+  # MySQL Database
   database:
-    image: mariadb:latest
+    image: mysql:latest
     networks:
       skhufeeds-network:
         aliases:
