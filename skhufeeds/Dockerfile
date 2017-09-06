@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # 의존성 설치 - Python 모듈 패키지
-RUN apk add mariadb-client && pip install -r requirements.txt
+RUN apk add --no-cache mariadb-client && pip install -r requirements.txt
 
 # 3000 번 포트 노출
 EXPOSE 3000
