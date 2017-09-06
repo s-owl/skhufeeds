@@ -1,0 +1,100 @@
+version: "3"
+
+services:
+  # Reverse Proxy
+  proxy:
+    image: registry.gitlab.com/skhu-sss/caddy:latest
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      skhufeeds-network:
+        aliases:
+          - proxy
+    deploy:
+      replicas: 1
+    volumes:
+      - proxy-vol:/usr/caddyfiles
+
+  # Main Process
+  main:
+    image: registry.gitlab.com/skhu-sss/skhufeeds:latest
+    networks:
+      skhufeeds-network:
+        aliases:
+          - main
+    deploy:
+      replicas: 1
+    environment:
+      SECRET_KEY: -r*^#^pd#1dkow16dr^kvx$dnp_eq449_5j$37qrma&@#49u-0
+      RABBITMQ_URL: amqp://broker
+      GOO_GL_ALI_KEY: AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE
+      DEBUG: True
+      DB_USER: skhufeeds
+      DB_PASSWORD: Skhufeedsdb1!
+      DB_NAME: skhufeedsdb
+      DB_HOST: database
+      DB_PORT: 3306
+    command: ./start_main.sh
+    links:
+      - database
+      - broker
+
+  # Worker Process - Uses same image from main service with diffrent entry command
+  worker:
+    image: registry.gitlab.com/skhu-sss/skhufeeds:latest
+    networks:
+      skhufeeds-network:
+        aliases:
+          - worker
+    deploy:
+      replicas: 1
+    environment:
+      SECRET_KEY: -r*^#^pd#1dkow16dr^kvx$dnp_eq449_5j$37qrma&@#49u-0
+      RABBITMQ_URL: amqp://broker
+      GOO_GL_ALI_KEY: AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE
+      DEBUG: True
+      DB_USER: skhufeeds
+      DB_PASSWORD: Skhufeedsdb1!
+      DB_NAME: skhufeedsdb
+      DB_HOST: database
+      DB_PORT: 3306
+    command: ./start_worker.sh
+    links:
+      - database
+      - broker
+
+  # Rabbit MQ Message Broker
+  broker:
+    image: rabbitmq:alpine
+    networks:
+      skhufeeds-network:
+        aliases:
+          - broker
+    deploy:
+      replicas: 1
+
+  # MariaDB Database
+  database:
+    image: mariadb:latest
+    networks:
+      skhufeeds-network:
+        aliases:
+          - database
+    deploy:
+      replicas: 1
+    environment:
+      MYSQL_USER: skhufeeds
+      MYSQL_PASSWORD: Skhufeedsdb1!
+      MYSQL_DATABASE: skhufeedsdb
+    volumes:
+      - database-vol:/var/lib/mysql
+
+# Networks for docker services
+networks:
+  skhufeeds-network:
+
+# Persistent Volumes for services
+volumes:
+  proxy-vol:
+  database-vol:

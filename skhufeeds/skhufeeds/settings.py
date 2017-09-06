@@ -15,17 +15,17 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = os.environ['RABBITMQ_URL']
 
-GOO_GL_ALI_KEY = "AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE"
+GOO_GL_ALI_KEY = os.environ['GOO_GL_ALI_KEY']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-r*^#^pd#1dkow16dr^kvx$dnp_eq449_5j$37qrma&@#49u-0'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG'] == "True"
 
 ALLOWED_HOSTS = [
 	'ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com'
@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'skhufeeds.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'skhufeedsdb',
-        'USER': 'skhufeeds',
-        'PASSWORD': 'Skhufeedsdb1!',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -119,9 +119,9 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'KST'
 
 USE_I18N = True
 
