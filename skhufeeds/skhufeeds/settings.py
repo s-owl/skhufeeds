@@ -28,7 +28,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = os.environ['DEBUG'] == "True"
 
 ALLOWED_HOSTS = [
-	'ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com'
+	os.environ['APP_HOST']
 ]
 
 
