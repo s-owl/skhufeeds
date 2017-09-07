@@ -26,10 +26,10 @@ services:
     deploy:
       replicas: 1
     environment:
-      SECRET_KEY: -r*^#^pd#1dkow16dr^kvx$dnp_eq449_5j$37qrma&@#49u-0
-      RABBITMQ_URL: amqp://broker
-      GOO_GL_ALI_KEY: AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE
-      DEBUG: True
+      SECRET_KEY: "-r*^#^pd#1dkow16dr^kvx$$dnp_eq449_5j$$37qrma&@#49u-0"
+      RABBITMQ_URL: "amqp://broker"
+      GOO_GL_ALI_KEY: "AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE"
+      DEBUG: "True"
       DB_USER: skhufeeds
       DB_PASSWORD: Skhufeedsdb1!
       DB_NAME: skhufeedsdb
@@ -50,10 +50,10 @@ services:
     deploy:
       replicas: 1
     environment:
-      SECRET_KEY: -r*^#^pd#1dkow16dr^kvx$dnp_eq449_5j$37qrma&@#49u-0
-      RABBITMQ_URL: amqp://broker
-      GOO_GL_ALI_KEY: AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE
-      DEBUG: True
+      SECRET_KEY: "-r*^#^pd#1dkow16dr^kvx$$dnp_eq449_5j$$37qrma&@#49u-0"
+      RABBITMQ_URL: "amqp://broker"
+      GOO_GL_ALI_KEY: "AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE"
+      DEBUG: "True"
       DB_USER: skhufeeds
       DB_PASSWORD: Skhufeedsdb1!
       DB_NAME: skhufeedsdb
@@ -87,6 +87,7 @@ services:
       MYSQL_USER: skhufeeds
       MYSQL_PASSWORD: Skhufeedsdb1!
       MYSQL_DATABASE: skhufeedsdb
+      MYSQL_ROOT_PASSWORD: Skhufeedsdb1!
     volumes:
       - database-vol:/var/lib/mysql
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
