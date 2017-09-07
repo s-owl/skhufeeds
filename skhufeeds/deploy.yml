@@ -36,7 +36,7 @@ services:
       DB_HOST: database
       DB_PORT: 3306
       APP_HOST: "main"
-    command: ./start_main.sh
+    command: bash start_main.sh
     links:
       - database
       - broker
@@ -61,7 +61,7 @@ services:
       DB_HOST: database
       DB_PORT: 3306
       APP_HOST: "main"
-    command: ./start_worker.sh
+    command: bash start_worker.sh
     links:
       - database
       - broker
