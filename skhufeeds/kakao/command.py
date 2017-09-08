@@ -8,7 +8,9 @@ from settings.models import Profile
 from crawlers.models import Contact
 from crawlers.crawlers import weather, academic_calendar
 from . import getnews
-default = ['학교소식','연락처','학사일정','날씨','설정']
+from django.conf import settings
+
+defaultBtns = ['학교소식','연락처','학사일정','날씨','설정']
 
 @csrf_exempt
 def answer(request):
@@ -28,7 +30,7 @@ def answer(request):
                 },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
                 }
             })
 
@@ -45,7 +47,7 @@ def answer(request):
                 },
                 'keyboard': {
                     'type' : 'buttons',
-                    'buttons' : default
+                    'buttons' : defaultBtns
                 }
             })
         else:
@@ -56,7 +58,7 @@ def answer(request):
                 },
                 'keyboard':{
                     'type' : 'buttons',
-                    'buttons' : default
+                    'buttons' : defaultBtns
                 }
             })
 
@@ -73,7 +75,7 @@ def answer(request):
                 },
                 'keyboard': {
                     'type' : 'buttons',
-                    'buttons' : default
+                    'buttons' : defaultBtns
                 }
             })
         else:
@@ -84,7 +86,7 @@ def answer(request):
                 },
                 'keyboard':{
                     'type' : 'buttons',
-                    'buttons' : default
+                    'buttons' : defaultBtns
                 }
             })
 
@@ -96,7 +98,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
                 }
             })
     elif(command == '학교소식'):
@@ -113,7 +115,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
             }
         })
     elif(command == '날씨'):
@@ -125,7 +127,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
             }
         })
     elif(command == '연락처'):
@@ -140,7 +142,7 @@ def answer(request):
             }
         })
     elif(command == '설정'):
-        loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
+        loginUrl = settings.BASEURL+'/settings/login/{}/{}'
         tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
         updateLastCommand(command,user.profile)
         return JsonResponse({
@@ -153,7 +155,7 @@ def answer(request):
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
             }
         })
     elif(command == '성명'):
@@ -183,7 +185,7 @@ def answer(request):
             },
             'keyboard' :{
                 'type' : 'buttons',
-                'buttons' : default
+                'buttons' : defaultBtns
             }
         })
     else:

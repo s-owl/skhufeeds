@@ -61,6 +61,7 @@ services:
       DB_HOST: database
       DB_PORT: 3306
       APP_HOST: "main"
+      BASEURL: "https://sf.youngbin.xyz"
     command: bash start_worker.sh
     links:
       - database

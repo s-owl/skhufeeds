@@ -15,4 +15,4 @@ RUN apt update -y && apt install -y mysql-client libmysqlclient-dev \
 EXPOSE 3000
 
 # 실행 명령
-CMD python3 manage.py runserver 0.0.0.0:3000
+CMD bash start_main.sh

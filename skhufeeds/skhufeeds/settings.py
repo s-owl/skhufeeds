@@ -15,9 +15,15 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# URL for Celery Broker
 CELERY_BROKER_URL = os.environ['RABBITMQ_URL']
 
+# Google URL Shortner API Key
 GOO_GL_ALI_KEY = os.environ['GOO_GL_ALI_KEY']
+
+#BASE URL for this app
+BASEURL = os.environ['BASEURL']
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
