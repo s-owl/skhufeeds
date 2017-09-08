@@ -23,7 +23,6 @@ def answer(request):
     try:
         user = User.objects.get(username = user_key)
     except User.DoesNotExist:
-        updateLastCommand(command, user.profile)
         return JsonResponse({
             'message' : {
                 'text': '친구추가 후 정상적으로 이용하실 수 있습니다.'
@@ -39,8 +38,8 @@ def answer(request):
         msg = ""
         for item in result:
             msg += '{}\n   소속: {}\n   내선번호: {}\n   e-mail: {}\n'.format(item.name,item.desc,item.phone,item.email)
+        updateLastCommand(command,user.profile)
         if(len(result)==0):
-            updateLastCommand(command, user.profile)
             return JsonResponse({
                 'message' : {
                     'text': '해당 교수명이 존재하지 않습니다.'
@@ -51,7 +50,6 @@ def answer(request):
                 }
             })
         else:
-            updateLastCommand(command,user.profile)
             return JsonResponse({
                 'message':{
                     'text': msg
@@ -67,8 +65,8 @@ def answer(request):
         msg2 = ""
         for item2 in result2:
             msg2 += '{}\n   소속: {}\n   내선번호: {}\n   e-mail: {}\n\n'.format(item2.name,item2.desc,item2.phone,item2.email)
+        updateLastCommand(command,user.profile)
         if(len(result2)==0):
-            updateLastCommand(command,user.profile)
             return JsonResponse({
                 'message' : {
                     'text': '해당 학과명 또는 부서명이 존재하지 않습니다.'
@@ -79,7 +77,6 @@ def answer(request):
                 }
             })
         else:
-            updateLastCommand(command,user.profile)
             return JsonResponse({
                 'message':{
                     'text': msg2
@@ -102,12 +99,12 @@ def answer(request):
                 }
             })
     elif(command == '학교소식'):
-        updateLastCommand(command,user.profile)
         newsfeeds = getnews.query_news(user)
         if(len(newsfeeds)<=5):
             newsfeeds = "구독하신 항목이 없습니다.\n설정버튼을 눌러 하나 이상 구독해주세요.\n(설정-설정페이지-구독)"
         user.profile.last_pull = datetime.datetime.utcnow()
         user.save()
+        updateLastCommand(command,user.profile)
         return JsonResponse({
 
             'message' : {
@@ -179,6 +176,7 @@ def answer(request):
             }
         })
     elif(command == '학사일정'):
+        updateLastCommand(command,user.profile)
         return JsonResponse({
             'message':{
                 'text': '[{}월 학사일정]\n\n{}'.format(datetime.datetime.now().month, academic_calendar.run())
