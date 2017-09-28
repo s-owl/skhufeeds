@@ -8,7 +8,33 @@ from settings.models import Profile
 from crawlers.models import Contact
 from crawlers.crawlers import weather, academic_calendar
 from . import getnews
+<<<<<<< Updated upstream
 default = ['학교소식','연락처','학사일정','날씨','설정']
+=======
+from django.conf import settings
+import importlib
+import os
+
+commands = []
+
+for name in os.listdir("commands"):
+    if name.endswith(“.py”):
+          #strip the extension
+         module = name[:-3]
+         # set the module name in the current global name space:
+         global commands.append(__import__(os.path.join("commands", module))
+
+for module in commands:
+    if(module.cmd == command):
+        module.run()
+
+###
+cmd = "학사일정"
+def run():
+
+###
+defaultBtns = ['학교소식','연락처','학사일정','날씨','설정']
+>>>>>>> Stashed changes
 
 @csrf_exempt
 def answer(request):
@@ -88,17 +114,17 @@ def answer(request):
                 }
             })
 
-    elif(command == '학식'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message' : {
-                'text': today_date + '\n중식: 없음\n석식: 없음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : default
-                }
-            })
+    # elif(command == '학식'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message' : {
+    #             'text': today_date + '\n중식: 없음\n석식: 없음'
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #             }
+    #         })
     elif(command == '학교소식'):
         updateLastCommand(command,user.profile)
         newsfeeds = getnews.query_news(user)
@@ -116,7 +142,19 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '날씨'):
+    # elif(command == '날씨'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #
+    #         'message' : {
+    #             'text':  "언제의 날씨를 알고 싶으신가요?"
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : ['현재 날씨', '내일 날씨']
+    #         }
+    #     })
+    elif(command == '현재 날씨'):
         updateLastCommand(command,user.profile)
         return JsonResponse({
 
@@ -128,24 +166,36 @@ def answer(request):
                 'buttons' : default
             }
         })
-    elif(command == '연락처'):
+    elif(command == '내일 날씨'):  #구현 필요
         updateLastCommand(command,user.profile)
         return JsonResponse({
+
             'message' : {
-                'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
+                'text':  weather.run()
             },
             'keyboard': {
                 'type' : 'buttons',
-                'buttons' : ['성명','소속']
+                'buttons' : defaultBtns
             }
         })
+    # elif(command == '연락처'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message' : {
+    #             'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.\n아직 등록되지 않은 전화번호와 이메일이 있을 수 있습니다.'
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : ['성명','소속']
+    #         }
+    #     })
     elif(command == '설정'):
         loginUrl = 'http://ec2-13-124-197-141.ap-northeast-2.compute.amazonaws.com/settings/login/{}/{}'
         tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
         updateLastCommand(command,user.profile)
         return JsonResponse({
             'message' : {
-                "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
+                "text": "본 설정페이지는 3분동안 유지됩니다.",
                 "message_button": {
                     'label': "설정페이지",
                     'url': tokenUrl
@@ -156,6 +206,7 @@ def answer(request):
                 'buttons' : default
             }
         })
+<<<<<<< Updated upstream
     elif(command == '성명'):
         updateLastCommand(command,user.profile)
         return JsonResponse({
@@ -186,6 +237,39 @@ def answer(request):
                 'buttons' : default
             }
         })
+=======
+    # elif(command == '성명'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '교수명을 입력하세요.'
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'text'
+    #         }
+    #     })
+    # elif(command == '소속'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '학과명 또는 부서명을 입력하세요.'
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'text'
+    #         }
+    #     })
+    # elif(command == '학사일정'):
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '[{}월 학사일정]\n\n{}'.format(datetime.datetime.now().month, academic_calendar.run())
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #         }
+    #     })
+>>>>>>> Stashed changes
     else:
         return HttpResponseNotFound
 
