@@ -1,13 +1,11 @@
 from . import util
 from django.http import JsonResponse
-
-cmd = "학식"
-
+from crawlers.crawlers import menu
 def run(user,command,user_key):
     util.updateLastCommand(command,user.profile)
     return JsonResponse({
         'message' : {
-            'text': today_date + '\n중식: 없음\n석식: 없음'
+            'text': today_date + '\nmenu.run()'
         },
         'keyboard': {
             'type' : 'buttons',

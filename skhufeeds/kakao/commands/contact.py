@@ -1,7 +1,6 @@
 from . import util
 from django.http import JsonResponse
 
-cmd = "연락처"
 
 def run(user, command, user_key):
     util.updateLastCommand(command,user.profile)

@@ -4,7 +4,7 @@ from . import util
 from django.http import JsonResponse
 from django.utils import timezone
 
-cmd = "학교소식"
+
 
 def run(user, command, user_key, today_date):
     newsfeeds = getnews.query_news(user)
