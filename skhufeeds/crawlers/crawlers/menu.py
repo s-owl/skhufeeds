@@ -26,10 +26,9 @@ def run():
             data.append(corner)
     #요일별 식단 저장
     for i in range(0,6):
-        diet, created = Diet.objects.get_or_create(
+        Diet.objects.get_or_create(
             date = timezone.make_aware(datetime.datetime.strptime(data[0][i],'%Y-%m-%d').date()),
             lunchA = data[1][i],
             lunchB = data[2][i],
             dinner = data[3][i]
         )
-        diet.save()
