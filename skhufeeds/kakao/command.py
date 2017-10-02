@@ -88,7 +88,8 @@ def answer(request):
             })
 
     elif(command == '학식'):
-        cafeteria.run(user,command,user_key)
+        res = cafeteria.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #         'message' : {
@@ -100,7 +101,8 @@ def answer(request):
     #             }
     #         })
     elif(command == '학교소식'):
-        news.run(user,command,user_key)
+        res = news.run(user,command,user_key,today_date)
+        return res
     #     newsfeeds = getnews.query_news(user)
     #     if(len(newsfeeds)<=5):
     #         newsfeeds = "구독하신 항목이 없습니다.\n설정버튼을 눌러 하나 이상 구독해주세요.\n(설정-설정페이지-구독)"
@@ -118,12 +120,14 @@ def answer(request):
     #         }
     #     })
     elif(command == '날씨'):
-        weather.run(user,command,user_key)
+        res = weather.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #
     #         'message' : {
-    #             'text':  weather.run()
+    res = #             'text':  weather.run()
+    return res
     #         },
     #         'keyboard': {
     #             'type' : 'buttons',
@@ -131,7 +135,8 @@ def answer(request):
     #         }
     #     })
     elif(command == '연락처'):
-        contact.run(user,command,user_key)
+        res = contact.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #         'message' : {
@@ -143,7 +148,8 @@ def answer(request):
     #         }
     #     })
     elif(command == '설정'):
-        setting.run(user,command,user_key)
+        res = setting.run(user,command,user_key)
+        return res
     #     loginUrl = settings.BASEURL+'/settings/login/{}/{}'
     #     tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
     #     updateLastCommand(command,user.profile)
@@ -161,7 +167,8 @@ def answer(request):
     #         }
     #     })
     elif(command == '성명'):
-        name.run(user,command,user_key)
+        res = name.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #         'message':{
@@ -172,7 +179,8 @@ def answer(request):
     #         }
     #     })
     elif(command == '소속'):
-        department.run(user,command,user_key)
+        res = department.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #         'message':{
@@ -183,7 +191,8 @@ def answer(request):
     #         }
     #     })
     elif(command == '학사일정'):
-        schedule.run(user,command,user_key)
+        res = schedule.run(user,command,user_key)
+        return res
     #     updateLastCommand(command,user.profile)
     #     return JsonResponse({
     #         'message':{
