@@ -2,6 +2,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
 from crawlers.models import Diet
+from django.utils import timezone
 
 def run():
     html = urlopen("http://www.skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_view.aspx?idx=315")#성공회대학교 학생식당 식단안내 url
@@ -25,13 +26,10 @@ def run():
             data.append(corner)
     #요일별 식단 저장
     for i in range(0,6):
-        diet, created = text.objects.get_or_create(
-            date = datetime.datetime.strptime('2017-09-25','%Y-%m-%d').date()
+        diet, created = Diet.objects.get_or_create(
+            date = timezone.make_aware(datetime.datetime.strptime(data[0][i],'%Y-%m-%d').date()),
             lunchA = data[1][i],
             lunchB = data[2][i],
             dinner = data[3][i]
         )
         diet.save()
-
-
-run()
