@@ -28,6 +28,7 @@ class Contact(models.Model):
     def __str__(self):
         return "{} : {} <{} / {}>".format(self.id, self.name, self.phone, self.email)
 
+#학식 데이터 모델
 class Diet(models.Model):
     date = models.DateTimeField()
     lunchA = models.TextField()

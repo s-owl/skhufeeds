@@ -4,7 +4,7 @@ import threading
 import time
 from .crawlers.notice import college, credit, event, lesson, notice, scholarship
 from .crawlers.info import info, manage, welfare_student
-from .crawlers import academic_calendar, menu, skhu, weather
+from .crawlers import menu
 from django.dispatch import receiver
 from django.core.signals import request_started
 from celery import shared_task
@@ -14,6 +14,7 @@ from django.conf import settings
 
 pulltime = datetime.datetime.utcnow()
 
+#1시간마다 긁어오기
 @receiver(request_started)
 def db_connected(sender, **kwargs):
     global pulltime
@@ -29,6 +30,8 @@ def run_crawler():
     print("Running Crawling tasks")
     contactList = [info.run(), manage.run(), welfare_student.run()]
     print(contactList)
+
+    #연락처
     for group in contactList:
         for item in group:
             contact, created = Contact.objects.get_or_create(
@@ -41,6 +44,8 @@ def run_crawler():
     feedsList = [college.run(), credit.run(), event.run(),
                  lesson.run(), notice.run(), scholarship.run()]
     print(feedsList)
+
+    #대학기구
     for main in feedsList:
         data = main['data']
         srcDic = main['source']
@@ -59,8 +64,11 @@ def run_crawler():
                 summary="",
                 url=shorturl
             )
+
+    #학식
+    menu.run()
     print("Task DONE!")
 
 
-# list3 = [academic_calendar.run(), menu.run(), weather.run()]
+
 # print(list3)
