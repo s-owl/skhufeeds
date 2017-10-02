@@ -3,14 +3,16 @@ from django.utils import html, timezone
 import datetime, uuid
 from jose import jwt
 
+# Creates user with some initial values
 def registerNewUser(useruid):
-    userSecret = uuid.uuid4()
+    userSecret = uuid.uuid4() # Secret for generating token
     newUser = User.objects.create_user(username=useruid, email=None, password=uuid.uuid4())
     newUser.profile.secret = userSecret
     newUser.save()
 
     print("New user {} has been registered!".format(useruid))
 
+# Removes user
 def deleteUser(useruid):
     try:
         user = User.objects.get(username = useruid)
@@ -21,7 +23,7 @@ def deleteUser(useruid):
     except Exception as e:
         print(e)
 
-# This function always returns new token for each user
+# This function always returns new token for the user
 def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
@@ -34,6 +36,7 @@ def getToken(useruid):
     else:
         # Generate Token
         print("Generating token for user {}.".format(useruid))
+        # Create token that expires in 3 min
         newToken = jwt.encode({'exp': timezone.now() + datetime.timedelta(minutes=3),
         'aud': user.username}, user.profile.secret)
         print(newToken)
@@ -47,9 +50,11 @@ def getToken(useruid):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
+        # match tokenToVerify with profile.token
         print("Checking whether token matches.")
         if(html.escape(tokenToVerify) == user.profile.token):
             print("Token matched. now verifing.")
+            # Now, verify it.
             jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
             print("Token Verified.")
             return True
@@ -62,13 +67,3 @@ def verifyToken(useruid, tokenToVerify):
     except Exception as e:
         print(e)
         return None
-
-    # except jwt.ExpiredSignatureError:
-    #     print("SIGNATURE ERROR!")
-    #     return False
-    # except jwt.exceptions.InvalidAudienceError:
-    #     print("TOKEN INVALID!")
-    #     return False
-    # except jwt.exceptions.DecodeError:
-    #     print("DECODE ERRPR!")
-    #     return False
