@@ -5,11 +5,7 @@ from jose import jwt
 
 def registerNewUser(useruid):
     userSecret = uuid.uuid4()
-
     newUser = User.objects.create_user(username=useruid, email=None, password=uuid.uuid4())
-    newUser.save()
-
-    newUser.profile.last_pull = timezone.now()
     newUser.profile.secret = userSecret
     newUser.save()
 
@@ -51,14 +47,15 @@ def getToken(useruid):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        # if(html.escape(tokenToVerify) == user.profile.token):
-        print("NOW VERIFING.")
-        jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
-        print("TOKEN VERIFIED!")
-        return True
-        # else:
-        #     print("VERIFICATION ERROR!")
-        #     return False
+        print("Checking whether token matches.")
+        if(html.escape(tokenToVerify) == user.profile.token):
+            print("Token matched. now verifing.")
+            jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
+            print("Token Verified.")
+            return True
+        else:
+            print("Token dose not match!")
+            return False
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None

@@ -18,7 +18,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     token = models.TextField(blank=True) # Login token
     secret = models.TextField(blank=True) # Secret for JWT Encryption
-    last_pull = models.DateTimeField(null=True, blank=True) # Last pull date & time
+    last_pull = models.DateTimeField(auto_now_add=True, null=True, blank=True) # Last pull date & time
     last_input = models.CharField(max_length=10, blank=True) # Last Input of the user
 
 # Create user profile data on user registration
