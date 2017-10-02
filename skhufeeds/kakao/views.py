@@ -19,7 +19,7 @@ def keyboard(request):
     })
 
 @csrf_exempt
-def add_friend(request):
+def add_friend(request):  # 플러스친구 추가 함수
     print("Request path : ",request.path)
     print("Request path info : ",request.path_info)
     if request.method == "POST":
@@ -32,7 +32,7 @@ def add_friend(request):
         return HttpResponseNotFound
 
 @csrf_exempt
-def del_friend(request, user_key):
+def del_friend(request, user_key):  # 플러스친구 삭제 함수
     print("Request path : ",request.path)
     print("Request path info : ",request.path_info)
     if request.method == "DELETE":

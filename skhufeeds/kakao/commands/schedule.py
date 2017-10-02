@@ -3,7 +3,6 @@ import json, datetime
 from . import util
 from django.http import JsonResponse
 
-cmd = "학사일정"
 
 def run(user, command, user_key):
     util.updateLastCommand(command,user.profile)

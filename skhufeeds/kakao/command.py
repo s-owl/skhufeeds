@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpRe
 import json, datetime
 from django.contrib.auth.models import User
 from crawlers.models import Contact
-from commands import cafeteria, contact, department, name, news, schedule, setting, weather
+from .commands import cafeteria, contact, department, name, news, schedule, setting, weather
 # from crawlers.crawlers import weather, academic_calendar
 # from . import getnews
 # from skhufeeds import account

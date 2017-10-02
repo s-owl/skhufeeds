@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views,command
+# Kakao API 처리
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^keyboard/$', views.keyboard),
