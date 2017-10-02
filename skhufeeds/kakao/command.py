@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpRe
 import json, datetime
 from django.contrib.auth.models import User
 from crawlers.models import Contact
-from commands import cafeteria, contact, department, name, news, schedule, setting, weather
+from .commands import cafeteria, contact, department, name, news, schedule, setting, weather
 # from crawlers.crawlers import weather, academic_calendar
 # from . import getnews
 # from skhufeeds import account
@@ -122,18 +122,7 @@ def answer(request):
     elif(command == '날씨'):
         res = weather.run(user,command,user_key)
         return res
-    #     updateLastCommand(command,user.profile)
-    #     return JsonResponse({
-    #
-    #         'message' : {
-    res = #             'text':  weather.run()
-    return res
-    #         },
-    #         'keyboard': {
-    #             'type' : 'buttons',
-    #             'buttons' : defaultBtns
-    #         }
-    #     })
+
     elif(command == '연락처'):
         res = contact.run(user,command,user_key)
         return res
