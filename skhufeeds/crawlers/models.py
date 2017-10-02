@@ -27,3 +27,9 @@ class Contact(models.Model):
 
     def __str__(self):
         return "{} : {} <{} / {}>".format(self.id, self.name, self.phone, self.email)
+
+class Diet(models.Model):
+    date = models.DateTimeField()
+    lunchA = models.TextField()
+    lunchB = models.TextField()
+    dinner = modles.TextField()
