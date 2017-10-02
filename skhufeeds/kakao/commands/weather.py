@@ -9,7 +9,7 @@ def run(user, command, user_key):
     return JsonResponse({
 
         'message' : {
-            'text':  weather.run()
+            'text':  weather.run(1)
         },
         'keyboard': {
             'type' : 'buttons',
