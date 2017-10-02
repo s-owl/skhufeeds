@@ -51,7 +51,7 @@ def getToken(useruid):
 def verifyToken(useruid, tokenToVerify):
     try:
         user = User.objects.get(username = useruid)
-        # if(tokenToVerify == user.profile.token):
+        # if(html.escape(tokenToVerify) == user.profile.token):
         print("NOW VERIFING.")
         jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
         print("TOKEN VERIFIED!")
