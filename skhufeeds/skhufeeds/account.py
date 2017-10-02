@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.utils import html, timezone
 import datetime, uuid
 from jose import jwt
 
@@ -8,7 +9,7 @@ def registerNewUser(useruid):
     newUser = User.objects.create_user(username=useruid, email=None, password=uuid.uuid4())
     newUser.save()
 
-    newUser.profile.last_pull = datetime.datetime.utcnow()
+    newUser.profile.last_pull = timezone.now()
     newUser.profile.secret = userSecret
     newUser.save()
 
@@ -37,10 +38,10 @@ def getToken(useruid):
     else:
         # Generate Token
         print("Generating token for user {}.".format(useruid))
-        newToken = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=3),
+        newToken = jwt.encode({'exp': timezone.now() + datetime.timedelta(minutes=3),
         'aud': user.username}, user.profile.secret)
         print(newToken)
-        user.profile.token = str(newToken)
+        user.profile.token = html.escape(newToken) # Store token for verification
         user.save()
         return newToken
 
