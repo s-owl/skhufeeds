@@ -123,18 +123,7 @@ def answer(request):
     elif(command == '날씨'):
         res = weather.run(user,command,user_key)
         return res
-    #     updateLastCommand(command,user.profile)
-    #     return JsonResponse({
-    #
-    #         'message' : {
-    res = #             'text':  weather.run()
-    return res
-    #         },
-    #         'keyboard': {
-    #             'type' : 'buttons',
-    #             'buttons' : defaultBtns
-    #         }
-    #     })
+
     elif(command == '연락처'):
         res = contact.run(user,command,user_key)
         return res
