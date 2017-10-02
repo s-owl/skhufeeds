@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup, Tag
 from crawlers.models import Diet
 from django.utils import timezone
+import datetime
 
 def run():
     html = urlopen("http://www.skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_view.aspx?idx=315")#성공회대학교 학생식당 식단안내 url
