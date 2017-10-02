@@ -6,7 +6,7 @@ def run(time_range):
     raw = opener.open("http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153059500").read() # Load Data
     tree = ET.fromstring(raw.decode("utf-8")) # Parse XML Doc
     current = tree[0][6][5][1] # root - channel - item - description - body
-    today = tree[0][5].text
+    today = tree[0][5].text #root-channel-pubDate
     weather = "{} 일기예보\n".format(today)
 
     for i in range(0, time_range):
