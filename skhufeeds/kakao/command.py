@@ -1,16 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 import json, datetime
-from skhufeeds import account
 from django.contrib.auth.models import User
-from settings.models import Profile
 from crawlers.models import Contact
-from crawlers.crawlers import weather, academic_calendar
-from . import getnews
-from django.conf import settings
+from commands import cafeteria, contact, department, name, news, schedule, setting, weather
+# from crawlers.crawlers import weather, academic_calendar
+# from . import getnews
+# from skhufeeds import account
+# from django.conf import settings
 
-defaultBtns = ['학교소식','연락처','학사일정','날씨','설정']
+defaultBtns = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
 @csrf_exempt
 def answer(request):
@@ -88,104 +88,112 @@ def answer(request):
             })
 
     elif(command == '학식'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message' : {
-                'text': today_date + '\n중식: 없음\n석식: 없음'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : defaultBtns
-                }
-            })
+        cafeteria.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message' : {
+    #             'text': today_date + '\n중식: 없음\n석식: 없음'
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #             }
+    #         })
     elif(command == '학교소식'):
-        newsfeeds = getnews.query_news(user)
-        if(len(newsfeeds)<=5):
-            newsfeeds = "구독하신 항목이 없습니다.\n설정버튼을 눌러 하나 이상 구독해주세요.\n(설정-설정페이지-구독)"
-        user.profile.last_pull = datetime.datetime.utcnow()
-        user.save()
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-
-            'message' : {
-                'text': "[{} 학교소식]\n".format(today_date) + newsfeeds
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : defaultBtns
-            }
-        })
+        news.run(user,command,user_key)
+    #     newsfeeds = getnews.query_news(user)
+    #     if(len(newsfeeds)<=5):
+    #         newsfeeds = "구독하신 항목이 없습니다.\n설정버튼을 눌러 하나 이상 구독해주세요.\n(설정-설정페이지-구독)"
+    #     user.profile.last_pull = datetime.datetime.utcnow()
+    #     user.save()
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #
+    #         'message' : {
+    #             'text': "[{} 학교소식]\n".format(today_date) + newsfeeds
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #         }
+    #     })
     elif(command == '날씨'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-
-            'message' : {
-                'text':  weather.run()
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : defaultBtns
-            }
-        })
+        weather.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #
+    #         'message' : {
+    #             'text':  weather.run()
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #         }
+    #     })
     elif(command == '연락처'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message' : {
-                'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : ['성명','소속']
-            }
-        })
+        contact.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message' : {
+    #             'text': '무엇으로 검색하시겠습니까?\n연락처는 내선번호와 이메일이 제공됩니다.'
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : ['성명','소속']
+    #         }
+    #     })
     elif(command == '설정'):
-        loginUrl = settings.BASEURL+'/settings/login/{}/{}'
-        tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message' : {
-                "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
-                "message_button": {
-                    'label': "설정페이지",
-                    'url': tokenUrl
-                    }
-            },
-            'keyboard': {
-                'type' : 'buttons',
-                'buttons' : defaultBtns
-            }
-        })
+        setting.run(user,command,user_key)
+    #     loginUrl = settings.BASEURL+'/settings/login/{}/{}'
+    #     tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message' : {
+    #             "text": "아래 버튼을 눌러 설정페이지로 이동하세요.",
+    #             "message_button": {
+    #                 'label': "설정페이지",
+    #                 'url': tokenUrl
+    #                 }
+    #         },
+    #         'keyboard': {
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #         }
+    #     })
     elif(command == '성명'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message':{
-                'text': '교수명을 입력하세요.'
-            },
-            'keyboard' :{
-                'type' : 'text'
-            }
-        })
+        name.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '교수명을 입력하세요.'
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'text'
+    #         }
+    #     })
     elif(command == '소속'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message':{
-                'text': '학과명 또는 부서명을 입력하세요.'
-            },
-            'keyboard' :{
-                'type' : 'text'
-            }
-        })
+        department.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '학과명 또는 부서명을 입력하세요.'
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'text'
+    #         }
+    #     })
     elif(command == '학사일정'):
-        updateLastCommand(command,user.profile)
-        return JsonResponse({
-            'message':{
-                'text': '[{}월 학사일정]\n\n{}'.format(datetime.datetime.now().month, academic_calendar.run())
-            },
-            'keyboard' :{
-                'type' : 'buttons',
-                'buttons' : defaultBtns
-            }
-        })
+        schedule.run(user,command,user_key)
+    #     updateLastCommand(command,user.profile)
+    #     return JsonResponse({
+    #         'message':{
+    #             'text': '[{}월 학사일정]\n\n{}'.format(datetime.datetime.now().month, academic_calendar.run())
+    #         },
+    #         'keyboard' :{
+    #             'type' : 'buttons',
+    #             'buttons' : defaultBtns
+    #         }
+    #     })
     else:
         return HttpResponseNotFound
 
