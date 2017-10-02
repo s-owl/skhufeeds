@@ -12,6 +12,7 @@ from commands import cafeteria, contact, department, name, news, schedule, setti
 
 defaultBtns = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
+# 버튼 처리 함수
 @csrf_exempt
 def answer(request):
     json_str = ((request.body).decode('utf-8'))
