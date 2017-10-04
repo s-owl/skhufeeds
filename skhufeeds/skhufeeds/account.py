@@ -27,14 +27,15 @@ def deleteUser(useruid):
 def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
+        userProfile = user.profile
         # Generate Token
         print("Generating token for user {}.".format(useruid))
         # Create token that expires in 3 min
         newToken = jwt.encode({'exp': timezone.now() + datetime.timedelta(minutes=3),
         'aud': user.username}, user.profile.secret)
         print(newToken)
-        user.profile.token = html.escape(newToken) # Store token for verification
-        user.save()
+        userProfile.token = html.escape(newToken) # Store token for verification
+        userProfile.save()
         return newToken
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
