@@ -27,13 +27,6 @@ def deleteUser(useruid):
 def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
-    except User.DoesNotExist:
-        print("Cannot find user {}.".format(useruid))
-        return None
-    except Exception as e:
-        print(e)
-        return None
-    else:
         # Generate Token
         print("Generating token for user {}.".format(useruid))
         # Create token that expires in 3 min
@@ -43,6 +36,12 @@ def getToken(useruid):
         user.profile.token = html.escape(newToken) # Store token for verification
         user.save()
         return newToken
+    except User.DoesNotExist:
+        print("Cannot find user {}.".format(useruid))
+        return None
+    except Exception as e:
+        print(e)
+        return None
 
 # Function that verifies token
 # Returns True if verified, or False
@@ -52,15 +51,15 @@ def verifyToken(useruid, tokenToVerify):
         user = User.objects.get(username = useruid)
         # match tokenToVerify with profile.token
         print("Checking whether token matches.")
-        if(html.escape(tokenToVerify) == user.profile.token):
-            print("Token matched. now verifing.")
-            # Now, verify it.
-            jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
-            print("Token Verified.")
-            return True
-        else:
-            print("Token dose not match!")
-            return False
+        # if(html.escape(tokenToVerify) == user.profile.token):
+        print("Token matched. now verifing.")
+        # Now, verify it.
+        jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
+        print("Token Verified.")
+        return True
+        # else:
+        #     print("Token dose not match!")
+        #     return False
     except User.DoesNotExist:
         print("Cannot find user {}.".format(useruid))
         return None
