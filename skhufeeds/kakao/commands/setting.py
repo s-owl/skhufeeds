@@ -5,7 +5,10 @@ from django.http import JsonResponse
 
 def run(user, command, user_key):
     loginUrl = settings.BASEURL+'/settings/login/{}/{}'
-    tokenUrl = loginUrl.format(user_key,account.getToken(user_key))
+    newToken = account.getToken(user_key)
+    tokenUrl = loginUrl.format(user_key, newToken)
+    user.profile.token = newToken
+    user.save()
     util.updateLastCommand(command,user.profile)
     return JsonResponse({
         'message' : {

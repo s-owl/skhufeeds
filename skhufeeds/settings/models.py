@@ -16,21 +16,18 @@ from crawlers.models import Source
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    token = models.TextField(blank=True) # Login token
+    token = models.CharField(max_length=200, blank=True) # Login token
     secret = models.TextField(blank=True) # Secret for JWT Encryption
     last_pull = models.DateTimeField(auto_now_add=True, null=True, blank=True) # Last pull date & time
     last_input = models.CharField(max_length=10, blank=True) # Last Input of the user
 
 # Create user profile data on user registration
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_or_save_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
-# Save user profile on user data change
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 #
 # 사용자 구독정보 모델
