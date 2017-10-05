@@ -7,8 +7,11 @@ def run(user, command, user_key):
     loginUrl = settings.BASEURL+'/settings/login/{}/{}'
     newToken = account.getToken(user_key)
     tokenUrl = loginUrl.format(user_key, newToken)
+
+    # Store new token for verification
     user.profile.token = newToken
     user.save()
+
     util.updateLastCommand(command,user.profile)
     return JsonResponse({
         'message' : {
