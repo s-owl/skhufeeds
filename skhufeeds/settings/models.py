@@ -32,8 +32,8 @@ def create_or_save_user_profile(sender, instance, created, **kwargs):
 #
 # 사용자 구독정보 모델
 class Subscribed(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # 사용자 외래키
+    source = models.ForeignKey(Source, on_delete = models.CASCADE) # 구독항목 외래키 
 
     # class Meta:
     #     unique_together = ('user', 'source')

@@ -9,7 +9,6 @@ from .models import Subscribed
 
 ## authenticate user with useruid and jwt token
 def authUser(request, useruid, token):
-    #
     try:
         user = authenticate(useruid=useruid, token=token)
     except User.DoesNotExist:
@@ -18,19 +17,24 @@ def authUser(request, useruid, token):
         return HttpResponseForbidden("만료된 URL 입니다.")
     else:
         login(request, user)
+        # After logging in, delete token from db.
+        user.profile.token = ""
+        user.save()
         return HttpResponseRedirect("/settings") # Redirect user to index page of settings app
 
 # Settings index page
 @login_required
 def index(request):
     user = request.user
-    allSources = Source.objects.all()
+    allSources = Source.objects.all() # load and show user subscription
     subscribedSources = Subscribed.objects.filter(user=user)
     subscribedList = list()
+    # Filter user subscription
     if subscribedSources != None and len(subscribedSources) > 0:
         for item in subscribedSources:
             subscribedList.append(item.source)
 
+    # Render settings page
     data = { 'all': allSources, 'subscribed': subscribedList }
     return render(request, 'index.html', data)
 
@@ -48,6 +52,7 @@ def toggleSubscription(request):
                 return HttpResponseForbidden("인증되지 않았습니다.")
             else:
                 if created == True and isSubscribedClient == "false":
+                    # Subscribe new item
                     subscribedItem.save()
                     return render(request, 'alert.html', {"alert":"구독 처리 되었습니다."})
                 elif (isSubscribedClient=="true"):
