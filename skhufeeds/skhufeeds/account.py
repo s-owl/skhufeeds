@@ -24,6 +24,7 @@ def deleteUser(useruid):
         print(e)
 
 # This function always returns new token for the user
+# YOu must store returned token for verification(verifyToken())
 def getToken(useruid):
     try:
         user = User.objects.get(username = useruid)
