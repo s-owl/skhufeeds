@@ -49,22 +49,14 @@ def getToken(useruid):
 # Returns True if verified, or False
 # Returns None if other error(ex : user not found) has raised
 def verifyToken(useruid, tokenToVerify):
-    try:
-        user = User.objects.get(username = useruid)
-        # match tokenToVerify with profile.token
-        print("Checking whether token matches.")
-        if(html.escape(tokenToVerify) == user.profile.token):
-            print("Token matched. now verifing.")
-            # Now, verify it.
-            jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
-            print("Token Verified.")
-            return True
-        else:
-            print("Token dose not match!")
-            return False
-    except User.DoesNotExist:
-        print("Cannot find user {}.".format(useruid))
-        return None
-    except Exception as e:
-        print(e)
-        return None
+    user = User.objects.get(username = useruid)
+    # match tokenToVerify with profile.token
+    print("Checking whether token matches.")
+    if(html.escape(tokenToVerify) == user.profile.token):
+        print("Token matched. now verifing.")
+        # Now, verify it.
+        jwt.decode(tokenToVerify, user.profile.secret, audience=useruid)
+        print("Token Verified.")
+        return True
+    else:
+        raise ValueError("Token dose not match!")
