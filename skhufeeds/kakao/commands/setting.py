@@ -15,7 +15,7 @@ def run(user, command, user_key):
     util.updateLastCommand(command,user.profile)
     return JsonResponse({
         'message' : {
-            "text": "아래 설정페이지 버튼을 눌러주세요.\n버튼은 3분동안 활성화됩니다.",
+            "text": "아래 설정페이지 버튼을 눌러주세요!!\n버튼은 3분동안 활성화됩니다!!",
             "message_button": {
                 'label': "설정페이지",
                 'url': tokenUrl

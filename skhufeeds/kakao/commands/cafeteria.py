@@ -14,7 +14,7 @@ def run(user,command,user_key):
                                   date__month=date.month,
                                   date__day=date.day)
         # 문자열 조립
-        menu = "{}년 {}월 {}일 메뉴\n[중식A]\n{}\n\n[중식B]\n{}\n\n[석식]\n{}".format(
+        menu = "{}년 {}월 {}일 식단!\n[중식A]\n{}\n\n[중식B]\n{}\n\n[석식]\n{}".format(
             result.date.year,
             result.date.month,
             result.date.day+1,
@@ -23,7 +23,7 @@ def run(user,command,user_key):
             result.dinner)
     except Diet.DoesNotExist:
         # 없는경우, 안내 표시
-        menu = "해당 요일에 학식이 없습니다."
+        menu = "해당 요일에 학식이 없습니다!"
 
     # 클라이언트에 응답
     return JsonResponse({

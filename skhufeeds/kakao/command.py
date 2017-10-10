@@ -26,7 +26,7 @@ def answer(request):
     except User.DoesNotExist:
         return JsonResponse({
             'message' : {
-                'text': '친구추가 후 정상적으로 이용하실 수 있습니다.'
+                'text': '친구추가 후 정상적으로 이용하실 수 있습니다!'
                 },
             'keyboard': {
                 'type' : 'buttons',
@@ -193,6 +193,14 @@ def answer(request):
     #             'buttons' : defaultBtns
     #         }
     #     })
+    elif(command == '뒤로가기'):
+        updateLastCommand(command,user.profile)
+            return JsonResponse({
+                'keyboard' :{
+                    'type' : 'buttons',
+                    'buttons' : defaultBtns
+                }
+            })
     else:
         return HttpResponseNotFound
 
