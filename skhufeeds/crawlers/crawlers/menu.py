@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 from crawlers.models import Diet
 
 def run():
-    html = urlopen("http://www.skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_view.aspx?idx=315")#성공회대학교 학생식당 식단안내 url
+    html = urlopen("http://skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_list.aspx")#성공회대학교 학생식당 식단안내 url
     bs0bj = BeautifulSoup(html.read(),"html.parser")
     data = list()
     date = list()
