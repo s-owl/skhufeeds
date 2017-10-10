@@ -12,10 +12,12 @@ def run(user,command,user_key):
         # 오늘 날자에 해당하는 식단을 DB 에서 조회
         result = Diet.objects.get(date__year=date.year,
                                   date__month=date.month,
-                                  date__day=date.day+1)
+                                  date__day=date.day)
         # 문자열 조립
-        menu = "{} 메뉴\n[중식A]\n{}\n\n[중식B]\n{}\n\n[석식]\n{}".format(
-            result.date.strftime("%Y년 %m월 %d일 "),
+        menu = "{}년 {}월 {}일 메뉴\n[중식A]\n{}\n\n[중식B]\n{}\n\n[석식]\n{}".format(
+            result.date.year,
+            result.date.month,
+            result.date.day+1,
             result.lunchA,
             result.lunchB,
             result.dinner)
