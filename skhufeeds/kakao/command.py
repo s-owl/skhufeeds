@@ -196,6 +196,9 @@ def answer(request):
     elif(command == '뒤로가기'):
         updateLastCommand(command,user.profile)
         return JsonResponse({
+            'message' : {
+                'text': "취소되었습니다."
+            },
             'keyboard' :{
                 'type' : 'buttons',
                 'buttons' : defaultBtns
