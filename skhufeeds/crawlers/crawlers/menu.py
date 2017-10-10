@@ -4,8 +4,17 @@ from bs4 import BeautifulSoup, Tag
 from crawlers.models import Diet
 
 def run():
-    html = urlopen("http://skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_list.aspx")#성공회대학교 학생식당 식단안내 url
+    html = urlopen("http://skhu.ac.kr/uni_zelkova/uni_zelkova_4_3_list.aspx")#성공회대학교 학생식단표 게시판 접근
     bs0bj = BeautifulSoup(html.read(),"html.parser")
+    for child in bs0bj.find("div",{"id":"cont"}).table.tbody.children: #학식 게시판에서 학식이 나와있는 항목으로 접근하기
+        if isinstance(child, Tag): #child의 타입이 Tag인지 확인
+            item = child.find("td",{"class","left15"}) #게시판 목록을 가져오기
+            link = "http://skhu.ac.kr/uni_zelkova/{}".format(item.a['href']) # 목록으로 가는 링크
+
+    html = urlopen(link) #학식 최신 식단표 접근
+    bs0bj = BeautifulSoup(html.read(),"html.parser")
+
+
     data = list()
     date = list()
     #for문을 사용하여 날짜 뽑아오기
@@ -32,6 +41,3 @@ def run():
             dinner = data[3][i]
         )
         diet.save()
-
-
-run()
