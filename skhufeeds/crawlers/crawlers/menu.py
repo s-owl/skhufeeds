@@ -22,7 +22,7 @@ def run():
     for child in bs0bj.find("tr",{"class":"item_th"}).children:
         if isinstance(child,Tag):
             date.append(child.get_text())
-    data.append(list(filter(lambda a: a not in("","일자"), date)))
+    data.append(list(filter(lambda x: x != "일자", date)))
 
     # for문을 사용하여 식단내용 추출 및 출력
     for child in bs0bj.find("div",{"class":"box_menu_in"}).table.tbody.children:
@@ -34,10 +34,11 @@ def run():
             data.append(corner)
     print(data)
     #요일별 식단 저장
-    for i in range(0,5):
-        Diet.objects.get_or_create(
-            date = timezone.make_aware(datetime.strptime(data[0][i],'%Y-%m-%d')),
-            lunchA = data[1][i],
-            lunchB = data[2][i],
-            dinner = data[3][i]
-        )
+    for i in range(0, len(data[0])):
+        if(data[0][i] != ""):
+            Diet.objects.get_or_create(
+                date = timezone.make_aware(datetime.strptime(data[0][i],'%Y-%m-%d')),
+                lunchA = data[1][i],
+                lunchB = data[3][i],
+                dinner = data[7][i]
+            )
