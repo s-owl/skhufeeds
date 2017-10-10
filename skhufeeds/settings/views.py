@@ -1,36 +1,46 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponseForbidden, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from crawlers.models import Source
 from .models import Subscribed
+from jose import jwt
 # Create your views here.
 
-## authenticate user with useruid and jwt token
+# authenticate user with useruid and jwt token
 def authUser(request, useruid, token):
-    #
     try:
         user = authenticate(useruid=useruid, token=token)
     except User.DoesNotExist:
         return HttpResponseNotFound("존재하지 않는 사용자 입니다.")
-    except jwt.InvalidAudienceError:
-        return HttpResponseForbidden("만료된 URL 입니다.")
+    except ValueError:
+        return HttpResponseForbidden("올바른 로그인 URL이 아니거나, 이미 사용된 URL 입니다.")
+    except jwt.ExpiredSignatureError:
+        return HttpResponseForbidden("만료된 로그인 URL 입니다.")
+    except jwt.JWTClaimsError:
+        return HttpResponseForbidden("올바른 로그인 URL 이 아닙니다.")
     else:
         login(request, user)
-        return HttpResponseRedirect("/settings") # Redirect user to index page of settings app
+        # After logging in, delete token from db.
+        user.profile.token = ""
+        user.save()
+        # Redirect user to index page of settings app
+        return HttpResponseRedirect("/settings")
 
 # Settings index page
 @login_required
 def index(request):
     user = request.user
-    allSources = Source.objects.all()
+    allSources = Source.objects.all() # load and show user subscription
     subscribedSources = Subscribed.objects.filter(user=user)
     subscribedList = list()
+    # Filter user subscription
     if subscribedSources != None and len(subscribedSources) > 0:
         for item in subscribedSources:
             subscribedList.append(item.source)
 
+    # Render settings page
     data = { 'all': allSources, 'subscribed': subscribedList }
     return render(request, 'index.html', data)
 
@@ -47,13 +57,14 @@ def toggleSubscription(request):
             except User.DoesNotExist:
                 return HttpResponseForbidden("인증되지 않았습니다.")
             else:
-                if created == True and isSubscribedClient == "false":
+                if created is True and isSubscribedClient == "false":
+                    # Subscribe new item
                     subscribedItem.save()
-                    return render(request, 'alert.html', {"alert":"구독 처리 되었습니다."})
-                elif (isSubscribedClient=="true"):
+                    return render(request, 'alert.html', {"alert": "구독 처리 되었습니다."})
+                elif (isSubscribedClient == "true"):
                     # User wants to remove item. remove object from db
                     subscribedItem.delete()
-                    return render(request, 'alert.html', {"alert":"구독 해제 되었습니다."})
+                    return render(request, 'alert.html', {"alert": "구독 해제 되었습니다."})
         else:
             HttpResponseForbidden("인증되지 않았습니다.")
     else:

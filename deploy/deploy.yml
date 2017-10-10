@@ -27,17 +27,17 @@ services:
     deploy:
       replicas: 1
     environment:
-      SECRET_KEY: "-r*^#^pd#1dkow16dr^kvx$$dnp_eq449_5j$$37qrma&@#49u-0"
-      RABBITMQ_URL: "amqp://broker"
-      GOO_GL_ALI_KEY: "AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE"
-      DEBUG: "True"
-      DB_USER: skhufeeds
-      DB_PASSWORD: Skhufeedsdb1!
-      DB_NAME: skhufeedsdb
-      DB_HOST: database
-      DB_PORT: 3306
-      APP_HOST: "main"
-      BASEURL: "https://sf.youngbin.xyz"
+      SECRET_KEY: "(DJANGO SECRET_KEY : 암호화 등에 사용되는 키 입니다. 임의로 생성된 50자 문자열을 넣습니다.)"
+      RABBITMQ_URL: "RabbitMQ 서버 주소입니다. (예시 : amqp://localhost)"
+      GOO_GL_ALI_KEY: "Google URL 단축 서비스 API 키"
+      DEBUG: "디버깅 모드 사용 여부 (True / False)"
+      DB_USER: 데이터베이스_사용자_이름
+      DB_PASSWORD: 데이터베이스_사용자_암호
+      DB_NAME: 데이터베이스_이름
+      DB_HOST: 데이터베이스_주소(예시:localhost)
+      DB_PORT: 데이터베이스_포트
+      APP_HOST: "서버를 작동하는 머신이 할당받은 도메인 네임."
+      BASEURL: "서버 주소(https://example.com)"
     command: bash start_main.sh
     links:
       - database
@@ -55,17 +55,17 @@ services:
     deploy:
       replicas: 1
     environment:
-      SECRET_KEY: "-r*^#^pd#1dkow16dr^kvx$$dnp_eq449_5j$$37qrma&@#49u-0"
-      RABBITMQ_URL: "amqp://broker"
-      GOO_GL_ALI_KEY: "AIzaSyAw2liExK_r_24oB50yJJqKJAgLEZN0amE"
-      DEBUG: "True"
-      DB_USER: skhufeeds
-      DB_PASSWORD: Skhufeedsdb1!
-      DB_NAME: skhufeedsdb
-      DB_HOST: database
-      DB_PORT: 3306
-      APP_HOST: "main"
-      BASEURL: "https://sf.youngbin.xyz"
+      SECRET_KEY: "(DJANGO SECRET_KEY : 암호화 등에 사용되는 키 입니다. 임의로 생성된 50자 문자열을 넣습니다.)"
+      RABBITMQ_URL: "RabbitMQ 서버 주소입니다. (예시 : amqp://localhost)"
+      GOO_GL_ALI_KEY: "Google URL 단축 서비스 API 키"
+      DEBUG: "디버깅 모드 사용 여부 (True / False)"
+      DB_USER: 데이터베이스_사용자_이름
+      DB_PASSWORD: 데이터베이스_사용자_암호
+      DB_NAME: 데이터베이스_이름
+      DB_HOST: 데이터베이스_주소(예시:localhost)
+      DB_PORT: 데이터베이스_포트
+      APP_HOST: "서버를 작동하는 머신이 할당받은 도메인 네임."
+      BASEURL: "서버 주소(https://example.com)"
     command: bash start_worker.sh
     links:
       - database

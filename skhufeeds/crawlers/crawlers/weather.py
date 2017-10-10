@@ -16,6 +16,6 @@ def run(time_range):
         temp = current[i][2].text #기온
         condition = current[i][7].text #날씨상태
         rain_prob = current[i][9].text #강수확률
-        weather += "{}시 - {}°C {} 강수확률: {}% 입니다.\n\n".format(hour,temp,condition,rain_prob)
+        weather += "{}시: {}°C {} 강수확률: {}%\n".format(hour,temp,condition,rain_prob)
 
     return weather

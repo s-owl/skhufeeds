@@ -1,7 +1,7 @@
 from crawlers.models import Contact
 from pyexcel_xls import get_data
 def save_to_db():
-    data = get_data("skhufeeds_info.xls")
+    data = get_data("skhufeeds_info.xls")  # 연락처가 저장된 엑셀파일 불러옴
     sheet = data['Sheet1']
     for i in range(2,len(sheet)):
         Contact.objects.get_or_create(

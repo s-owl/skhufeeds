@@ -6,7 +6,7 @@ from skhufeeds import account
 from . import command
 
 
-default = ['학교소식','연락처','학사일정','날씨','설정']
+default = ['학교소식','연락처','학사일정','날씨','학식','설정']
 
 # Create your views here.
 def index(request):
@@ -19,7 +19,7 @@ def keyboard(request):
     })
 
 @csrf_exempt
-def add_friend(request):
+def add_friend(request):  # 플러스친구 추가 함수
     print("Request path : ",request.path)
     print("Request path info : ",request.path_info)
     if request.method == "POST":
@@ -32,7 +32,7 @@ def add_friend(request):
         return HttpResponseNotFound
 
 @csrf_exempt
-def del_friend(request, user_key):
+def del_friend(request, user_key):  # 플러스친구 삭제 함수
     print("Request path : ",request.path)
     print("Request path info : ",request.path_info)
     if request.method == "DELETE":

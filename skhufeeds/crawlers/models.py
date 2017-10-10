@@ -33,4 +33,4 @@ class Diet(models.Model):
     date = models.DateTimeField()
     lunchA = models.TextField()
     lunchB = models.TextField()
-    dinner = modles.TextField()
+    dinner = models.TextField()

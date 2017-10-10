@@ -1,0 +1,13 @@
+app.example.com # 앱이 배포된 서버가 사용하는 도메인
+gzip
+root /usr/caddystatic # 정적 파일 경로
+tls example@example.com { # TLS 인증서 발급에 사용할 이메일 주소
+   max_certs 10
+   ca https://acme-v01.api.letsencrypt.org/directory
+}
+proxy / main:3000 { # 프록시 설정
+  except /static
+  max_fails 3
+  fail_timeout 30s
+  try_duration 3s
+}
