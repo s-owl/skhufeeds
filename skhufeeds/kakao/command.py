@@ -195,12 +195,12 @@ def answer(request):
     #     })
     elif(command == '뒤로가기'):
         updateLastCommand(command,user.profile)
-            return JsonResponse({
-                'keyboard' :{
-                    'type' : 'buttons',
-                    'buttons' : defaultBtns
-                }
-            })
+        return JsonResponse({
+            'keyboard' :{
+                'type' : 'buttons',
+                'buttons' : defaultBtns
+            }
+        })
     else:
         return HttpResponseNotFound
 
