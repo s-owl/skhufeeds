@@ -3,7 +3,7 @@ version: "3"
 services:
   # Reverse Proxy
   proxy:
-    image: registry.gitlab.com/skhu-sss/caddy:latest
+    image: registry.gitlab.com/skhu-sss/caddy:latest # 빌드한 이미지의 이름으로 변경하여 사용
     ports:
       - 443:443
       - 80:80
@@ -19,7 +19,7 @@ services:
 
   # Main Process
   main:
-    image: registry.gitlab.com/skhu-sss/skhufeeds:latest
+    image: registry.gitlab.com/skhu-sss/skhufeeds:latest # 빌드한 이미지의 이름으로 변경하여 사용
     networks:
       skhufeeds-network:
         aliases:
@@ -47,7 +47,7 @@ services:
 
   # Worker Process - Uses same image from main service with diffrent entry command
   worker:
-    image: registry.gitlab.com/skhu-sss/skhufeeds:latest
+    image: registry.gitlab.com/skhu-sss/skhufeeds:latest # 빌드한 이미지의 이름으로 변경하여 사용
     networks:
       skhufeeds-network:
         aliases:

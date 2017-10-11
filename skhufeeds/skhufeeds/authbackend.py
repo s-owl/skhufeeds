@@ -7,6 +7,7 @@ class UrlTokenBackend(ModelBackend):
     def authenticate(self, useruid, token):
         print("Authenticating user {} with token {}".format(useruid, token))
         user = User.objects.get(username=useruid)
+        # Call verification function from account module
         if account.verifyToken(useruid, token):
             return user
         else:
